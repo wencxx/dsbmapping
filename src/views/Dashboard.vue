@@ -34,7 +34,7 @@
                     <Icon icon="fa6-solid:house" class="text-4xl text-white" />
                 </div>
                 <div class="flex flex-col gap-y-2">
-                    <h1 class="text-lg">Residents With Medical History</h1>
+                    <h1 class="text-lg">Residents With Disease</h1>
                     <p class="text-2xl font-bold">{{ totalWithMedical }}</p>
                 </div>
             </div>

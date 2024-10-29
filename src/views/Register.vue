@@ -2,14 +2,14 @@
     <div class="w-full !h-screen !bg-[#9dde8b] flex items-center justify-center">
         <form @submit.prevent="register" class="bg-[#006769] w-1/3 h-fit rounded-md grid grid-cols-2 gap-5 p-4">
             <h1 class="text-2xl text-white uppercase font-semibold col-span-2 text-center">Register</h1>
-            <p v-if="err" class="col-span-2 bg-red-500 pl-2 text-white rounded py-1">{{ err }} asdsa</p>
+            <p v-if="err" class="col-span-2 bg-red-500 pl-2 text-white rounded py-1">{{ err }}</p>
             <div class="w-full flex flex-col gap-y-2">
                 <label class="text-white text-lg">Firstname</label>
-                <input type="text" class="rounded h-8 pl-2" v-model="userData.firstName">
+                <input type="text" class="rounded h-8 pl-2 capitalize" v-model="userData.firstName">
             </div>
             <div class="w-full flex flex-col gap-y-2">
                 <label class="text-white text-lg">Lastname</label>
-                <input type="text" class="rounded h-8 pl-2" v-model="userData.lastName">
+                <input type="text" class="rounded h-8 pl-2 capitalize" v-model="userData.lastName">
             </div>
             <div class="w-full flex flex-col gap-y-2">
                 <label class="text-white text-lg">Email</label>
@@ -21,6 +21,7 @@
                     <option value="">Select Role</option>
                     <option>Staff</option>
                     <option>Admin</option>
+                    <option>Resident</option>
                 </select>
             </div>
             <div class="w-full flex flex-col gap-y-2">
@@ -85,11 +86,18 @@ const register = async () => {
         if(!snapshot.empty){
             router.push('/')
         }
-
-        registering.value = false
     } catch (error) {
-        console.log(error)
-        err.value = error.message
+        if (error.code === 'auth/invalid-credential') {
+            err.value = 'Invali Credential.';
+        }else if(error.code === 'auth/missing-password'){
+            err.value = 'Missing password.';
+        }else if(error.code === 'auth/email-already-in-use'){
+            err.value = 'Email already registered.';
+        }else{
+            err.value = error.message;
+        }
+    } finally {
+        registering.value = false
     }
 }
 

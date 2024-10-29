@@ -5,7 +5,7 @@ import { collection, onSnapshot } from 'firebase/firestore'
 const useDataStore = defineStore('dataStore', {
     state: () => ({
         households: [],
-        residents: []
+        announcements: []
     }),
     getters: {
         totalHouseholds(state) {
@@ -81,6 +81,7 @@ const useDataStore = defineStore('dataStore', {
                             });
                         });
                         this.getResidents()
+                        this.getAnnouncements()
                     }
                 );
             } catch (error) {
@@ -99,6 +100,28 @@ const useDataStore = defineStore('dataStore', {
                         
                         snapshot.forEach(doc => {
                             this.residents.push({
+                                id: doc.id,
+                                ...doc.data()
+                            });
+                        });
+                    }
+                );
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async getAnnouncements() {
+            const announcements = collection(db, 'announcements')
+
+            try {
+                this.residents = [];
+                onSnapshot(
+                    announcements,
+                    (snapshot) => {
+                        this.announcements = []; 
+                        
+                        snapshot.forEach(doc => {
+                            this.announcements.push({
                                 id: doc.id,
                                 ...doc.data()
                             });

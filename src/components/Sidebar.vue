@@ -6,7 +6,7 @@
                 <li v-if="role === 'Admin'" class="w-full">
                     <router-link :to="{ name: 'dashboard'}" class="w-full flex justify-center py-2 group relative hover:bg-blue-800">
                         <Icon icon="bx:line-chart" class="text-3xl"/>
-                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-full hidden group-hover:flex !z-[1000]">
+                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-fit px-2 hidden group-hover:flex !z-[1000]">
                             <p>Dashboard</p>
                         </div>
                     </router-link>
@@ -14,7 +14,7 @@
                 <li class="w-full">
                     <router-link :to="{ name: 'residents'}" class="w-full flex justify-center py-2 group relative hover:bg-blue-800">
                         <Icon icon="mdi:people-group" class="text-3xl"/>
-                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-full hidden group-hover:flex !z-[1000]">
+                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-fit px-2 hidden group-hover:flex !z-[1000]">
                             <p>Residents</p>
                         </div>
                     </router-link>
@@ -22,15 +22,23 @@
                 <li class="w-full">
                     <router-link :to="{ name: 'households'}" class="w-full flex justify-center py-2 group relative hover:bg-blue-800">
                         <Icon icon="fa6-solid:house" class="text-3xl"/>
-                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-full hidden group-hover:flex !z-[1000]">
+                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-fit px-2 hidden group-hover:flex !z-[1000]">
                             <p>Households</p>
+                        </div>
+                    </router-link>
+                </li>
+                <li v-if="role === 'Admin'" class="w-full">
+                    <router-link :to="{ name: 'announcements'}" class="w-full flex justify-center py-2 group relative hover:bg-blue-800">
+                        <Icon icon="material-symbols:newspaper" class="text-3xl"/>
+                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-fit px-2 hidden group-hover:flex !z-[1000]">
+                            <p>Announcement</p>
                         </div>
                     </router-link>
                 </li>
                 <li v-if="role === 'Admin'" class="w-full">
                     <router-link :to="{ name: 'reports'}" class="w-full flex justify-center py-2 group relative hover:bg-blue-800">
                         <Icon icon="mingcute:report-forms-line" class="text-3xl"/>
-                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-full hidden group-hover:flex !z-[1000]">
+                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-fit px-2 hidden group-hover:flex !z-[1000]">
                             <p>Reports</p>
                         </div>
                     </router-link>
@@ -38,7 +46,7 @@
                 <li v-if="role === 'Admin'" class="w-full">
                     <router-link :to="{ name: 'map'}" class="w-full flex justify-center py-2 group relative hover:bg-blue-800">
                         <Icon icon="ri:road-map-fill" class="text-3xl"/>
-                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-full hidden group-hover:flex !z-[1000]">
+                        <div class="absolute left-[100%] top-0 bg-black/20 h-full items-center justify-center w-fit px-2 hidden group-hover:flex !z-[1000]">
                             <p>Map</p>
                         </div>
                     </router-link>

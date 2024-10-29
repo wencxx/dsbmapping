@@ -65,14 +65,18 @@ const login = async () => {
 
             if(snapshot.docs[0].data().role === 'Admin'){
                 router.push('/dashboard')
-            }else{
+            }else if(snapshot.docs[0].data().role === 'Staff'){
                 router.push('/residents')
+            }else{
+                router.push('/newsfeed')
             }
         }
     } catch (error) {
         console.log(error)
         if (error.code === 'auth/invalid-credential') {
             err.value = 'Invali Credential.';
+        }else if(error.code === 'auth/missing-password'){
+            err.value = 'Missing password.';
         }else{
             err.value = 'Something wrong with server.';
         }

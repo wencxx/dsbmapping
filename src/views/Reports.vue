@@ -29,7 +29,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="2" class="py-2 text-center">No data to show</td>
+              <td colspan="2" class="py-2 text-center">No data to show</td>s
             </tr>
           </tbody>
         </table>

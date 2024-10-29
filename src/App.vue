@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-screen">
-      <Sidebar v-if="isAuth" />
-      <div class="w-full" :class="{'w-[95dvw]': isAuth}">
+      <Sidebar v-if="isAuth && role !== 'Resident'" />
+      <div class="w-full" :class="{'w-[95dvw]': isAuth &&  role !== 'Resident'}">
         <Header v-if="isAuth" class="h-[8dvh] bg-white shadow-lg" />
         <router-view class="bg-gray-200/85 h-[92dvh] py-14 px-48" />
       </div>
@@ -18,6 +18,8 @@ import { onAuthStateChanged } from 'firebase/auth'
 const authStore = useAuthStore()
 
 const isAuth = computed(() => authStore.isAuth)
+
+const role = computed(() => authStore.role)
 
 const listenForAuthChanges = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

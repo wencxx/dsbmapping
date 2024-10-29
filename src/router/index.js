@@ -45,9 +45,25 @@ const routes = [
         }
     },
     {
+        path: '/announcements',
+        name: 'announcements',
+        component: () => import('../views/Announcements.vue'),
+        mete: {
+            requiresAuth: true
+        }
+    },
+    {
         path: '/map',
         name: 'map',
         component: () => import('../views/Map.vue'),
+        mete: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/newsfeed',
+        name: 'newsfeed',
+        component: () => import('../views/ResidentsNewsfeed.vue'),
         mete: {
             requiresAuth: true
         }
