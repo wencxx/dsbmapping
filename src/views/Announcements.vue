@@ -112,7 +112,6 @@ const prevPage = () => {
   }
 };
 
-
 // add resident
 const isAddAnnouncement = ref(false)
 const addResident = () => {
