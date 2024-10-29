@@ -14,9 +14,9 @@
                 <table class="min-w-full border border-gray-300">
                     <thead>
                         <tr class="bg-gray-100">
-                          <th class="border border-gray-300 p-2">Title</th>
-                          <th class="border border-gray-300 p-2">Description</th>
-                          <th class="border border-gray-300 p-2">Action</th>
+                          <th class="border border-gray-300 p-2 w-1/4">Title</th>
+                          <th class="border border-gray-300 p-2 w-2/4">Description</th>
+                          <th class="border border-gray-300 p-2 w-1/4">Date added</th>
                         </tr>
                     </thead>
                     <tbody v-if="paginatedData.length > 0">
