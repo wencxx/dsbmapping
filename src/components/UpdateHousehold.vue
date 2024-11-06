@@ -1,7 +1,7 @@
 <template>
     <div class="absolute top-0 left-0 w-screen h-screen bg-black/55 flex items-center justify-center">
-        <form @submit.prevent="addHousehold" class="bg-white w-1/2 h-fit rounded-md p-5 space-y-7">
-            <h1 class="text-center text-xl">Household Information Form</h1>
+        <form @submit.prevent="updateHousehold" class="bg-white w-1/2 h-fit rounded-md p-5 space-y-7">
+            <h1 class="text-center text-xl">Update Household</h1>
             <div class="grid grid-cols-3 gap-5">    
                 <h1 class="col-span-3 font-semibold text-lg">Household Info</h1>
                 <div class="flex flex-col gap-y-2">
@@ -103,8 +103,8 @@
             </div>
             <div class="col-span-3 flex justify-end items-center gap-x-3 mt-5">
                 <button class="!w-2/6 xl:w-1/6 border py-1 rounded bg-red-500 text-white hover:bg-red-600" type="button" @click="closeModal">Back</button>
-                <button v-if="!addingHousehold" class="!w-2/6 xl:w-1/6 border py-1 rounded bg-green-500 text-white hover:bg-green-600">Add Household</button>
-                <button v-else class="!w-2/6 xl:w-1/6 border py-1 rounded bg-green-500 text-white hover:bg-green-600">Adding Household</button>
+                <button v-if="!addingHousehold" class="!w-2/6 xl:w-1/6 border py-1 rounded bg-green-500 text-white hover:bg-green-600">Update Household</button>
+                <button v-else class="!w-2/6 xl:w-1/6 border py-1 rounded bg-green-500 text-white hover:bg-green-600">Updating Household</button>
             </div>
         </form>
 
@@ -129,12 +129,12 @@
 </template>
 
 <script setup>
-import { computed, defineEmits, ref } from 'vue'
+import { computed, defineEmits, ref, defineProps, onMounted, watch } from 'vue'
 import 'leaflet/dist/leaflet.css';
 import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 import L from 'leaflet'
 import { db } from '@config/firebaseConfig.js'
-import { addDoc, collection, Timestamp } from 'firebase/firestore'
+import { updateDoc, doc, Timestamp } from 'firebase/firestore'
 import { useToast } from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
@@ -147,12 +147,15 @@ const emit = defineEmits(['closeModal'])
 const closeModal = () => {
     emit('closeModal')
 }
+const prop = defineProps({
+    householdData: Object
+})
 
 const householdData = ref({
-    householdNumber: '',
-    address: '',
-    lat: '',
-    lng: '',
+    householdNumber: prop.householdData.householdNumber,
+    address: prop.householdData.address,
+    lat: prop.householdData.lat,
+    lng: prop.householdData.lng,
 })
 
 const headData = ref({
@@ -165,7 +168,25 @@ const headData = ref({
     educationalAttainment: '',
     householdNumber: computed(() => householdData.value.householdNumber),
     religion: '',
-    medicalHistory: []
+    medicalHistory: ''
+})
+
+onMounted(() => {
+    watch(prop, (newData) => {
+        if(newData) {
+            headData.value.firstName = prop.householdData.firstName
+            headData.value.middleName = prop.householdData.middleName
+            headData.value.lastName = prop.householdData.lastName
+            headData.value.birthdate = prop.householdData.birthdate
+            headData.value.status = prop.householdData.status
+            headData.value.gender = prop.householdData.gender
+            headData.value.educationalAttainment = prop.householdData.educationalAttainment
+            headData.value.religion = prop.householdData.religion
+            headData.value.medicalHistory = prop.householdData.medicalHistory
+            householdId.value = prop.householdData.id
+            headId.value = prop.householdData.headId
+        }
+    })
 })
 
 // select on map
@@ -190,39 +211,33 @@ const addMarker = async (event) => {
     }
 }
 
-const householdRef = collection(db, 'households')
-const residentRef = collection(db, 'residents')
+const householdId = ref('')
+const headId = ref('')
 
 const addingHousehold = ref(false)
 
 // add household
-const addHousehold = async () => {
+const updateHousehold = async () => {
+    const householdRef = doc(db, 'households', householdId.value)
+    const residentRef = doc(db, 'residents', headId.value)
     try {
 
-        if(Object.values(householdData.value).some(field => !field) || Object.values(headData.value).some(field => !field)) return $toast.error('Fill out all fields')
-
         addingHousehold.value = true
-        const snapshot = await addDoc(residentRef, {
+        await updateDoc(residentRef, {
             ...headData.value,
-            addedAt: Timestamp.now()
         })
 
-        const household = await addDoc(householdRef, {
+        await updateDoc(householdRef, {
             ...householdData.value,
-            headId: snapshot.id,
-            head: `${headData.value.firstName} ${headData.value.middleName} ${headData.value.lastName}`,
-            addedAt: Timestamp.now()
         })
 
-        if(!household.empty){
-            closeModal()
-            $toast.success('Household added successfully')
-        }
+        closeModal()
+        $toast.success('Household updated successfully')
 
         addingHousehold.value = false
     } catch (error) {
         console.log(error.message)
-        $toast.error('Failed to add household')
+        $toast.error('Failed to update household')
     }
 }
 

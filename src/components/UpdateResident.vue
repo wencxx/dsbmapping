@@ -1,7 +1,7 @@
 <template>
     <div class="absolute top-0 left-0 w-screen h-screen bg-black/55 flex items-center justify-center">
-        <form @submit.prevent="addResident" class="bg-white w-1/2 h-fit rounded-md p-5 space-y-7">
-            <h1 class="text-center text-xl">Resident Information Form</h1>
+        <form @submit.prevent="updateResident" class="bg-white w-1/2 h-fit rounded-md p-5 space-y-7">
+            <h1 class="text-center text-xl">Update Resident</h1>
             <div class="grid grid-cols-3 gap-5">  
                 <p v-if="err" class="col-span-3 bg-red-500 text-white pl-2 py-1 rounded">{{ err }}</p>  
                 <div class="flex flex-col gap-y-2">
@@ -93,8 +93,8 @@
                 </div>
                 <div class="col-span-3 flex justify-end items-center gap-x-3 mt-5">
                     <button class="w-1/6 border py-1 rounded bg-red-500 text-white hover:bg-red-600" type="button" @click="closeModal">Back</button>
-                    <button v-if="!addingResident" class="w-1/6 border py-1 rounded bg-green-500 text-white hover:bg-green-600">Add Resident</button>
-                    <button v-else class="w-1/6 border py-1 rounded bg-green-500 text-white hover:bg-green-600 animate-pulse" disabled>Adding Resident</button>
+                    <button v-if="!updatingResident" class="w-1/6 border py-1 rounded bg-green-500 text-white hover:bg-green-600">Update Resident</button>
+                    <button v-else class="w-1/6 border py-1 rounded bg-green-500 text-white hover:bg-green-600 animate-pulse" disabled>Updating Resident</button>
                 </div>
             </div>
         </form>
@@ -102,10 +102,10 @@
 </template>
 
 <script setup>
-import { computed, defineEmits, ref } from 'vue'
+import { computed, defineEmits, ref, defineProps } from 'vue'
 import { useDataStore } from '@store'
 import { db } from '@config/firebaseConfig.js'
-import { collection, addDoc, Timestamp } from 'firebase/firestore'
+import { doc, updateDoc, Timestamp } from 'firebase/firestore'
 import { useToast } from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
@@ -114,20 +114,23 @@ const $toast = useToast()
 const dataStore = useDataStore()
 const households = computed(() => dataStore.households)
 
-const residentData = ref({
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    birthdate: '',
-    status: '',
-    gender: '',
-    educationalAttainment: '',
-    householdNumber: '',
-    religion: '',
-    medicalHistory: [],
+const emit = defineEmits(['closeModal'])
+const prop = defineProps({
+    residentData: Object
 })
 
-const emit = defineEmits(['closeModal'])
+const residentData = ref({
+    firstName: prop.residentData.firstName,
+    middleName: prop.residentData.middleName,
+    lastName: prop.residentData.lastName,
+    birthdate: prop.residentData.birthdate,
+    status: prop.residentData.status,
+    gender: prop.residentData.gender,
+    educationalAttainment: prop.residentData.educationalAttainment,
+    householdNumber: prop.residentData.householdNumber,
+    religion: prop.residentData.religion,
+    medicalHistory: prop.residentData.medicalHistory,
+})
 
 const closeModal = () => {
     emit('closeModal')
@@ -135,25 +138,20 @@ const closeModal = () => {
 
 // add data
 const err = ref('')
-const residentRef = collection(db, 'residents')
-const addingResident = ref(false)
+const residentRef = doc(db, 'residents', prop.residentData.id)
+const updatingResident = ref(false)
 
-const addResident = async () => {
-    err.value = ''
+
+const updateResident = async () => {
     try {
-        addingResident.value = true
-        if(!residentData.value.householdNumber || !residentData.value.firstName || !residentData.value.lastName || !residentData.value.gender || !residentData.value.educationalAttainment || !residentData.value.birthdate || !residentData.value.status) return err.value = 'Fill out required fields'
-        const snapshot = await addDoc(residentRef, {
-            ...residentData.value,
-            addedAt: Timestamp.now()
-        })  
-        
-        if(snapshot.empty) return $toast.error("Failed to add resident")
+        updatingResident.value = true
+        await updateDoc(residentRef, residentData.value)
+        $toast.success('Resident updated successfully')
+        updatingResident.value = false
         closeModal()
-        addingResident.value = false
-        $toast.success("Added resident successfully")
     } catch (error) {
-        $toast.error(error.message)
+        err.value = err.message
     }
 }
+
 </script>

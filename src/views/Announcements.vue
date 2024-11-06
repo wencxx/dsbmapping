@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-y-10">
         <div class="self-end">
-            <button class="bg-slate-800 text-white px-3 py-2 rounded-md text-lg hover:bg-slate-900 flex items-center gap-x-1" @click="addResident">
+            <button class="bg-slate-800 text-white px-3 py-2 rounded-md text-lg hover:bg-slate-900 flex items-center gap-x-1" @click="addAnnouncement">
                 <Icon icon="ic:sharp-person-add" class="text-xl" />
                 Add Announcement
             </button>
@@ -14,9 +14,10 @@
                 <table class="min-w-full border border-gray-300">
                     <thead>
                         <tr class="bg-gray-100">
-                          <th class="border border-gray-300 p-2 w-1/4">Title</th>
-                          <th class="border border-gray-300 p-2 w-2/4">Description</th>
-                          <th class="border border-gray-300 p-2 w-1/4">Date added</th>
+                          <th class="border border-gray-300 p-2 w-1/5">Title</th>
+                          <th class="border border-gray-300 p-2 w-2/5">Description</th>
+                          <th class="border border-gray-300 p-2 w-1/5">Date added</th>
+                          <th class="border border-gray-300 p-2 w-1/5">Action</th>
                         </tr>
                     </thead>
                     <tbody v-if="paginatedData.length > 0">
@@ -28,6 +29,11 @@
                           <td class="border border-gray-300 p-2">{{ announcement.title }}</td>
                           <td class="border border-gray-300 p-2">{{ announcement.description }}</td>
                           <td class="border border-gray-300 p-2">{{ formatDate(announcement.birthdate) }}</td>
+                          <td class="border border-gray-300 p-2">
+                            <div class="flex items-center justify-center gap-x-2">
+                              <Icon icon="mdi:trash" class="text-red-500 text-xl" @click="showDeletModal(announcement.id)" />
+                            </div>
+                          </td>
                         </tr>
                     </tbody>
                     <tbody v-else>
@@ -51,6 +57,18 @@
 
         <!-- add resident form component -->
         <AddAnnouncement v-if="isAddAnnouncement" @click.self="isAddAnnouncement = false" @closeModal="isAddAnnouncement = false" />
+
+        <!-- modal for deletion -->
+        <div v-if="willDelete" @click.self="willDelete = false" class="fixed top-0 left-0 w-screen h-screen bg-black/10 flex items-center justify-center">
+            <div class="bg-white rounded-xl shadow p-10 flex flex-col items-center justify-center">
+              <Icon icon="mdi:warning" class="text-orange-500 text-[100px]" />
+              <h1 class="font-medium text-xl">Proceed with the deletion?</h1>
+              <div class="mt-5 w-full flex justify-center gap-x-5">
+                  <button class="w-1/3 bg-green-500 text-white rounded" @click="willDelete = false">No</button>
+                  <button class="w-1/3 bg-red-500 text-white rounded" @click="deleteAnnouncement">Yes</button>
+              </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -70,14 +88,22 @@ const dataStore = useDataStore()
 
 const announcements = computed(() => dataStore.announcements)
 
-// remove resident
-const removeResident = async (residentId) => {
-  const docRef = doc(db, 'residents', residentId)
+// remove announcement
+const willDelete = ref(false)
+const announcementToBeDeleted = ref('')
+
+const showDeletModal = (id) => {
+  willDelete.value = true
+  announcementToBeDeleted.value = id
+}
+const deleteAnnouncement = async () => {
+  const docRef = doc(db, 'announcements', announcementToBeDeleted.value)
   try {
     await deleteDoc(docRef)
-    $toast.success('Deleted resident successfully')
+    willDelete.value = false
+    $toast.success('Deleted announcement successfully')
   } catch (error) {
-    $toast.error('Failed to delete resident')
+    $toast.error('Failed to delete announcement')
   }
 }
 
@@ -112,9 +138,9 @@ const prevPage = () => {
   }
 };
 
-// add resident
+// add annouuncement
 const isAddAnnouncement = ref(false)
-const addResident = () => {
+const addAnnouncement = () => {
     isAddAnnouncement.value = true
 }
 

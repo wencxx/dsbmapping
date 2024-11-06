@@ -31,7 +31,7 @@
                         class="border border-gray-300 text-center"
                         >
                           <td class="border border-gray-300 p-2">{{ resident.householdNumber }}</td>
-                          <td class="border border-gray-300 p-2">{{ resident.firstName }}</td>
+                          <td class="border border-gray-300 p-2">{{ resident.firstName }} {{ resident.middleName }} {{ resident.lastName }}</td>
                           <td class="border border-gray-300 p-2">{{ formatDate(resident.birthdate) }}</td>
                           <td class="border border-gray-300 p-2">{{ resident.gender }}</td>
                           <td v-if="resident.medicalHistory.length" class="border border-gray-300 p-2">
@@ -42,7 +42,10 @@
                           <td class="border border-gray-300 p-2">{{ resident.religion }}</td>
                           <td>
                             <div class="flex items-center justify-center">
-                                <button @click="removeResident(resident.id)">
+                                <button @click="updateResident(resident)">
+                                    <Icon icon="mdi:pencil" class="text-green-500 text-xl" />
+                                </button>
+                                <button @click="showDeleteModal(resident.id)">
                                     <Icon icon="mdi:trash" class="text-red-500 text-xl" />
                                 </button>
                             </div>
@@ -70,12 +73,26 @@
 
         <!-- add resident form component -->
         <AddResident v-if="isAddResident" @click.self="isAddResident = false" @closeModal="isAddResident = false" />
+        <UpdateResident v-if="isUpdateResident" @click.self="isUpdateResident = false" @closeModal="isUpdateResident = false" :residentData="residentData" />
+
+        <!-- modal for deletion -->
+        <div v-if="willDelete" @click.self="willDelete = false" class="fixed top-0 left-0 w-screen h-screen bg-black/10 flex items-center justify-center">
+            <div class="bg-white rounded-xl shadow p-10 flex flex-col items-center justify-center">
+              <Icon icon="mdi:warning" class="text-orange-500 text-[100px]" />
+              <h1 class="font-medium text-xl">Proceed with the deletion?</h1>
+              <div class="mt-5 w-full flex justify-center gap-x-5">
+                  <button class="w-1/3 bg-green-500 text-white rounded" @click="willDelete = false">No</button>
+                  <button class="w-1/3 bg-red-500 text-white rounded" @click="removeResident">Yes</button>
+              </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import AddResident from '@components/AddResident.vue'
+import UpdateResident from '@components/UpdateResident.vue'
 import { useDataStore } from '@store'
 import moment from 'moment'
 import { useToast } from 'vue-toast-notification'
@@ -90,10 +107,19 @@ const dataStore = useDataStore()
 const residents = computed(() => dataStore.residents)
 
 // remove resident
-const removeResident = async (residentId) => {
-  const docRef = doc(db, 'residents', residentId)
+const willDelete = ref(false)
+const residentToBeDeleted = ref('')
+
+const showDeleteModal = (id) => {
+  willDelete.value = true
+  residentToBeDeleted.value = id
+}
+
+const removeResident = async () => {
+  const docRef = doc(db, 'residents', residentToBeDeleted.value)
   try {
     await deleteDoc(docRef)
+    willDelete.value = false
     $toast.success('Deleted resident successfully')
   } catch (error) {
     $toast.error('Failed to delete resident')
@@ -136,6 +162,15 @@ const prevPage = () => {
 const isAddResident = ref(false)
 const addResident = () => {
     isAddResident.value = true
+}
+
+// update resident
+const residentData = ref({})
+
+const isUpdateResident = ref(false)
+const updateResident = (data) => {
+  residentData.value = data
+  isUpdateResident.value = true
 }
 
 // format date

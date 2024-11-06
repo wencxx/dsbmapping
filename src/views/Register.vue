@@ -69,7 +69,9 @@ const register = async () => {
     err.value = ''
     try {
         registering.value = true
-        if(password.value !== secondPassword.value) return err.value = 'password doesnt match'
+
+        if(!userData.value.role) return err.value = 'Please select a role'
+        if(password.value !== secondPassword.value) return err.value = 'Password doesnt match'
 
         const userCredential  = await createUserWithEmailAndPassword(auth, userData.value.email, password.value)
 

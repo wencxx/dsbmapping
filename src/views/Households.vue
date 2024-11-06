@@ -33,7 +33,10 @@
                           <td class="border border-gray-300 p-2">{{ formatDate(item.addedAt) }}</td>
                           <td>
                             <div class="flex items-center justify-center">
-                                <button @click="removeHousehold(item.id, item.householdNumber)">
+                                <button @click="updateHousehold(item)">
+                                    <Icon icon="mdi:pencil" class="text-green-500 text-xl" />
+                                </button>
+                                <button @click="showDeleteModal(item.id, item.householdNumber)">
                                     <Icon icon="mdi:trash" class="text-red-500 text-xl" />
                                 </button>
                             </div>
@@ -61,6 +64,19 @@
 
         <!-- add resident form component -->
         <AddHousehold v-if="isAddHousehold" @click.self="isAddHousehold = false" @closeModal="isAddHousehold = false" />
+        <UpdateHousehold v-if="isUpdateHousehold" @click.self="isUpdateHousehold = false" @closeModal="isUpdateHousehold = false" :householdData="householdData" />
+
+        <!-- modal for deletion -->
+        <div v-if="willDelete" @click.self="willDelete = false" class="fixed top-0 left-0 w-screen h-screen bg-black/10 flex items-center justify-center">
+            <div class="bg-white rounded-xl shadow p-10 flex flex-col items-center justify-center">
+              <Icon icon="mdi:warning" class="text-orange-500 text-[100px]" />
+              <h1 class="font-medium text-xl">Proceed with the deletion?</h1>
+              <div class="mt-5 w-full flex justify-center gap-x-5">
+                  <button class="w-1/3 bg-green-500 text-white rounded" @click="willDelete = false">No</button>
+                  <button class="w-1/3 bg-red-500 text-white rounded" @click="removeHousehold">Yes</button>
+              </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -69,25 +85,39 @@ import { ref, computed } from 'vue';
 import { useToast } from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 import AddHousehold from '@components/AddHousehold.vue'
+import UpdateHousehold from '@components/UpdateHousehold.vue'
 import { useDataStore } from '@store'
 import moment from 'moment'
 import { db } from '@config/firebaseConfig.js'
-import { doc, deleteDoc, query, collection, where, getDocs } from 'firebase/firestore'
+import { doc, deleteDoc, query, collection, where, getDocs, getDoc } from 'firebase/firestore'
 
 const $toast = useToast()
 
 const dataStore = useDataStore()
 const households = computed(() => dataStore.households)
 
-const removeHousehold = async (householdId, householdNumber) => {
-  const householdRef = doc(db, 'households', householdId)
+// remove household
+const willDelete = ref(false)
+const householdToBeDeleted = ref('')
+const householdNumberToBeDeleted = ref('')
+
+const showDeleteModal = (householdId, householdNumber) => {
+  willDelete.value = true
+  householdToBeDeleted.value = householdId
+  householdNumberToBeDeleted.value = householdNumber
+}
+
+const removeHousehold = async () => {
+  const householdRef = doc(db, 'households', householdToBeDeleted.value)
   const residentsCollectionRef = collection(db, 'residents')
   try {
-    const q = query(residentsCollectionRef, where('householdNumber', '==', householdNumber))
+    const q = query(residentsCollectionRef, where('householdNumber', '==', householdNumberToBeDeleted.value))
     const querySnapshot = await getDocs(q)
 
     const deletePromises = querySnapshot.docs.map(docSnapshot => deleteDoc(docSnapshot.ref))
     await Promise.all(deletePromises)
+
+    willDelete.value = false
 
     await deleteDoc(householdRef)
     dataStore.getHouseholds()
@@ -132,6 +162,26 @@ const prevPage = () => {
 
 // add household
 const isAddHousehold = ref(false)
+const isUpdateHousehold = ref(false)
+
+const householdData = ref({})
+
+const updateHousehold = async (data) => {
+  isUpdateHousehold.value = true
+  householdData.value = data
+
+  const headRef = doc(db, 'residents', data.headId)
+  try {
+      const snapshot = await getDoc(headRef)
+      householdData.value = {
+        ...data,
+        ...snapshot.data()
+      }
+  } catch (error) {
+    $toast.error('Failed fetching household head ')
+  }
+}
+
 
 const formatDate = (date) => {
   const milliseconds = date.seconds * 1000 + Math.floor(date.nanoseconds / 1000000);
