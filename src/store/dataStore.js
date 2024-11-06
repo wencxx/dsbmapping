@@ -5,7 +5,8 @@ import { collection, onSnapshot } from 'firebase/firestore'
 const useDataStore = defineStore('dataStore', {
     state: () => ({
         households: [],
-        announcements: []
+        announcements: [],
+        residents: [],
     }),
     getters: {
         totalHouseholds(state) {

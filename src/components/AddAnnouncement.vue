@@ -40,10 +40,13 @@ import { collection, addDoc, Timestamp } from 'firebase/firestore'
 import { useToast } from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage'
+import  emailjs from 'emailjs-com'
 
 const $toast = useToast()
 
 const dataStore = useDataStore()
+
+const residents = computed(() => dataStore.residents)
 
 const announcementData = ref({
     title: '',
@@ -97,6 +100,29 @@ const addAnnouncement = async () => {
         })  
         
         if(snapshot.empty) return $toast.error("Failed to add announcement")
+        for(const res of residents.value){
+            var templateParams = {
+            name: res.firstName,
+            to: res.email,
+            from: 'Rural Health Unit',
+            };
+
+            emailjs
+            .send(
+                'service_3k2ha2s',
+                'template_2apc7wh',
+                templateParams,
+                'yqf3r_scJmWURJ-Ju'
+            )
+            .then(
+                (response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                },
+                (error) => {
+                    console.log('FAILED...', error);
+                }
+            )
+        }
         closeModal()
         addingAnnouncement.value = false
         fileName.value = []

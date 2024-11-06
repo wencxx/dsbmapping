@@ -77,6 +77,10 @@
                         <option>Seventh Day Adventist</option>
                     </select>
                 </div>
+                <div class="flex flex-col gap-y-2">
+                    <label class="text-lg">Email</label>
+                    <input type="email" class="h-10 rounded border border-black pl-2" v-model="headData.email">
+                </div>
                 <h1 class="col-span-3 font-semibold text-lg">Medical History</h1>
                 <div class="col-span-3 grid grid-cols-5">
                     <div class="flex items-center gap-x-2">
@@ -168,6 +172,7 @@ const headData = ref({
     educationalAttainment: '',
     householdNumber: computed(() => householdData.value.householdNumber),
     religion: '',
+    email: '',
     medicalHistory: ''
 })
 
@@ -182,6 +187,7 @@ onMounted(() => {
             headData.value.gender = prop.householdData.gender
             headData.value.educationalAttainment = prop.householdData.educationalAttainment
             headData.value.religion = prop.householdData.religion
+            headData.value.email = prop.householdData.email
             headData.value.medicalHistory = prop.householdData.medicalHistory
             householdId.value = prop.householdData.id
             headId.value = prop.householdData.headId

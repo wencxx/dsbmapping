@@ -31,6 +31,7 @@
                           <td class="border border-gray-300 p-2">{{ formatDate(announcement.birthdate) }}</td>
                           <td class="border border-gray-300 p-2">
                             <div class="flex items-center justify-center gap-x-2">
+                              <Icon icon="mdi:pencil" class="text-green-500 text-xl" @click="updateAnnouncement(announcement)" />
                               <Icon icon="mdi:trash" class="text-red-500 text-xl" @click="showDeletModal(announcement.id)" />
                             </div>
                           </td>
@@ -55,8 +56,9 @@
             </div>
         </div>
 
-        <!-- add resident form component -->
+        <!-- add announvement form component -->
         <AddAnnouncement v-if="isAddAnnouncement" @click.self="isAddAnnouncement = false" @closeModal="isAddAnnouncement = false" />
+        <UpdateAnnouncement v-if="isUpdateAnnouncement" @click.self="isUpdateAnnouncement = false" @closeModal="isUpdateAnnouncement = false" :announcementData="announcementData" />
 
         <!-- modal for deletion -->
         <div v-if="willDelete" @click.self="willDelete = false" class="fixed top-0 left-0 w-screen h-screen bg-black/10 flex items-center justify-center">
@@ -75,6 +77,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import AddAnnouncement from '@components/AddAnnouncement.vue'
+import UpdateAnnouncement from '@components/UpdateAnnouncement.vue'
 import { useDataStore } from '@store'
 import moment from 'moment'
 import { useToast } from 'vue-toast-notification'
@@ -142,6 +145,15 @@ const prevPage = () => {
 const isAddAnnouncement = ref(false)
 const addAnnouncement = () => {
     isAddAnnouncement.value = true
+}
+
+// update announcement
+const isUpdateAnnouncement = ref(false)
+const announcementData = ref({})
+
+const updateAnnouncement = (data) => {
+  isUpdateAnnouncement.value = true
+  announcementData.value = data
 }
 
 // format date
