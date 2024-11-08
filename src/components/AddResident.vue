@@ -69,26 +69,29 @@
                     </select>
                 </div>
                 <h1 class="col-span-3 font-semibold text-lg">Medical History</h1>
-                <div class="col-span-3 grid grid-cols-5">
-                    <div class="flex items-center gap-x-2">
+                <div class="col-span-3 grid grid-cols-7 gap-3">
+                    <div class="flex items-center justify-center gap-x-2">
                         <p>Hypertension</p>
                         <input type="checkbox" class="border w-4 aspect-square" value="Hypertension" v-model="residentData.medicalHistory">
                     </div>
-                    <div class="flex items-center gap-x-2">
+                    <div class="flex items-center justify-center gap-x-2">
                         <p>Diabetes</p>
                         <input type="checkbox" class="border w-4 aspect-square" value="Diabetes" v-model="residentData.medicalHistory">
                     </div>
-                    <div class="flex items-center gap-x-2">
+                    <div class="flex items-center justify-center gap-x-2">
                         <p>Cancer</p>
                         <input type="checkbox" class="border w-4 aspect-square" value="Cancer" v-model="residentData.medicalHistory"> 
                     </div>
-                    <div class="flex items-center gap-x-2">
+                    <div class="flex items-center justify-center gap-x-2">
                         <p>Tuberculosis</p>
                         <input type="checkbox" class="border w-4 aspect-square" value="Tuberculosis" v-model="residentData.medicalHistory">
                     </div>
-                    <div class="flex items-center gap-x-2">
+                    <div class="flex items-center justify-center gap-x-2">
                         <p>Others</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="Others" v-model="residentData.medicalHistory">
+                        <input type="checkbox" class="border w-4 aspect-square" @change="others = !others">
+                    </div>
+                    <div v-if="others" class="flex items-center gap-x-2 col-span-2">
+                        <input type="text" class="border w-full h-8 pl-2" placeholder="Enter other commorbidities" v-model="otherMedicalHistory" @change="inputOtherMedicalHistory">
                     </div>
                 </div>
                 <div class="col-span-3 flex justify-end items-center gap-x-3 mt-5">
@@ -113,6 +116,16 @@ const $toast = useToast()
 
 const dataStore = useDataStore()
 const households = computed(() => dataStore.households)
+
+const others = ref(false)
+
+const otherMedicalHistory = ref('')
+
+const inputOtherMedicalHistory = () => {
+    if(otherMedicalHistory.value){
+        residentData.value.medicalHistory.push(otherMedicalHistory.value)
+    }
+}
 
 const residentData = ref({
     firstName: '',

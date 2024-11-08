@@ -1,7 +1,10 @@
 <template>
     <div class="w-full !h-screen !bg-[#9dde8b] flex items-center justify-center">
         <form @submit.prevent="login" class="bg-[#006769] w-1/4 h-fit rounded-md flex flex-col items-center gap-y-5 p-4">
-            <h1 class="text-2xl text-white uppercase font-semibold">Login</h1>
+            <div class="flex flex-col items-center justify-center gap-y-2">
+                <img src="../assets/logo.png" alt="logo" class="w-20 aspect-square">
+                <h1 class="text-2xl text-white uppercase font-semibold">Welcome</h1>
+            </div>
             <p v-if="err" class="text-lg text-white bg-red-500 w-full pl-2 rounded">{{ err }}</p>
             <div class="w-full flex flex-col gap-y-2">
                 <label class="text-white text-lg">Email</label>
