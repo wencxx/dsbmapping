@@ -2,39 +2,39 @@
     <div class="!p-10 space-y-10">
         <!-- boxed data -->
        <div class="grid grid-cols-4 gap-x-10">
-            <router-link :to="{ name: 'households' }" class="bg-white h-36 rounded-lg shadow flex items-center justify-center gap-x-8">
+            <router-link :to="{ name: 'households' }" class="bg-white h-36 p-10 rounded-lg shadow flex items-center justify-center gap-x-8">
                 <div class="bg-blue-600 py-3 px-5 rounded w-fit">
                     <Icon icon="fa6-solid:house" class="text-4xl text-white" />
                 </div>
                 <div class="flex flex-col gap-y-2">
-                    <h1 class="text-xl">Total Households</h1>
+                    <h1 class="text-xl">Households</h1>
                     <p class="text-2xl font-bold">{{ totalHouseholds }}</p>
                 </div>
             </router-link>
-            <router-link :to="{ name: 'residents' }" class="bg-white h-36 rounded-lg shadow flex items-center justify-center gap-x-8">
+            <router-link :to="{ name: 'residents' }" class="bg-white h-36 p-10 rounded-lg shadow flex items-center justify-center gap-x-8">
                 <div class= "bg-blue-600 py-3 px-5 rounded w-fit">
                     <Icon icon="mdi:people-group" class="text-4xl text-white" />
                 </div>
                 <div class="flex flex-col gap-y-2">
-                    <h1 class="text-xl">Total Residents</h1>
+                    <h1 class="text-xl">Residents</h1>
                     <p class="text-2xl font-bold">{{ totalResidents }}</p>
                 </div>
             </router-link>
-            <div class="bg-white h-36 rounded-lg shadow flex items-center justify-center gap-x-8">
+            <div class="bg-white h-36 p-10 rounded-lg shadow flex items-center justify-center gap-x-8">
                 <div class="bg-blue-600 py-3 px-5 rounded w-fit">
                     <Icon icon="tabler:old" class="text-4xl text-white" />
                 </div>
                 <div class="flex flex-col gap-y-2">
-                    <h1 class="text-xl">Total Senior Citizen</h1>
+                    <h1 class="text-lg">Senior Citizen</h1>
                     <p class="text-2xl font-bold">{{ totalSenior }}</p>
                 </div>
             </div>
-            <div class="bg-white h-36 rounded-lg shadow flex items-center justify-center gap-x-8">
+            <div class="bg-white h-36 p-10 rounded-lg shadow flex items-center justify-center gap-x-8">
                 <div class="bg-blue-600 py-3 px-5 rounded w-fit">
                     <Icon icon="fa6-solid:house" class="text-4xl text-white" />
                 </div>
                 <div class="flex flex-col gap-y-2">
-                    <h1 class="text-lg">Residents With Disease</h1>
+                    <h1 class="text-lg">Residents With Comorbidities</h1>
                     <p class="text-2xl font-bold">{{ totalWithMedical }}</p>
                 </div>
             </div>

@@ -91,7 +91,7 @@
                         <input type="checkbox" class="border w-4 aspect-square" @change="others = !others">
                     </div>
                     <div v-if="others" class="flex items-center gap-x-2 col-span-2">
-                        <input type="text" class="border w-full h-8 pl-2" placeholder="Enter other commorbidities" v-model="otherMedicalHistory" @change="inputOtherMedicalHistory">
+                        <input type="text" class="border w-full h-8 pl-2" placeholder="Enter other comorbidities" v-model="otherMedicalHistory" @change="inputOtherMedicalHistory">
                     </div>
                 </div>
                 <div class="col-span-3 flex justify-end items-center gap-x-3 mt-5">

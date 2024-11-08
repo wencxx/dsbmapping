@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-y-10">
+    <div class="flex flex-col gap-y-10 h-[92dvh] overflow-auto">
         <div class="self-end">
             <button class="bg-slate-800 text-white px-3 py-2 rounded-md text-lg hover:bg-slate-900 flex items-center gap-x-1" @click="addResident">
                 <Icon icon="ic:sharp-person-add" class="text-xl" />

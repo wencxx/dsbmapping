@@ -99,9 +99,12 @@
                         <p>Tuberculosis</p>
                         <input type="checkbox" class="border w-4 aspect-square" value="Tuberculosis" v-model="headData.medicalHistory">
                     </div>
-                    <div class="flex items-center gap-x-2">
+                     <div class="flex items-center justify-center gap-x-2">
                         <p>Others</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="Others" v-model="headData.medicalHistory">
+                        <input type="checkbox" class="border w-4 aspect-square" @change="others = !others">
+                    </div>
+                    <div v-if="others" class="flex items-center gap-x-2 col-span-2">
+                        <input type="text" class="border w-full h-8 pl-2" placeholder="Enter other comorbidities" v-model="otherMedicalHistory" @change="inputOtherMedicalHistory">
                     </div>
                 </div>
             </div>
@@ -150,6 +153,16 @@ const emit = defineEmits(['closeModal'])
 
 const closeModal = () => {
     emit('closeModal')
+}
+
+const others = ref(false)
+
+const otherMedicalHistory = ref('')
+
+const inputOtherMedicalHistory = () => {
+    if(otherMedicalHistory.value){
+        headData.value.medicalHistory.push(otherMedicalHistory.value)
+    }
 }
 
 const householdData = ref({

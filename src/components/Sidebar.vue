@@ -1,5 +1,5 @@
 <template>
-    <div class="w-[15dvw] h-screen bg-slate-900 text-white  py-5 space-y-10">
+    <div class="w-[20dvw] xl:w-[15dvw] h-screen bg-slate-900 text-white  py-5 space-y-10">
         <div class="flex items-center justify-center gap-x-2">
             <img src="../assets/logo.png" alt="logo" class="w-12 aspect-square -mt-2">
             <h1 class="font-bold text-lg">Rural Health Unit</h1>
