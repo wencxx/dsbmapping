@@ -62,6 +62,14 @@ const routes = [
         }
     },
     {
+        path: '/calendar',
+        name: 'calendar',
+        component: () => import('../views/Calendar.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
         path: '/map',
         name: 'map',
         component: () => import('../views/Map.vue'),
