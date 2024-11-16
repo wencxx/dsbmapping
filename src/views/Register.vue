@@ -16,15 +16,6 @@
                 <input type="email" class="rounded h-8 pl-2" v-model="userData.email">
             </div>
             <div class="w-full flex flex-col gap-y-2">
-                <label class="text-white text-lg">Role</label>
-                <select class="rounded h-8 pl-2" v-model="userData.role">
-                    <option value="">Select Role</option>
-                    <option>Staff</option>
-                    <option>Admin</option>
-                    <option>Resident</option>
-                </select>
-            </div>
-            <div class="w-full flex flex-col gap-y-2">
                 <label class="text-white text-lg">Password</label>
                 <input type="password" class="rounded h-8 pl-2" v-model="password">
             </div>
@@ -57,7 +48,8 @@ const userData = ref({
     firstName: '',
     lastName: '',
     email: '',
-    role: '',
+    role: 'Staff',
+    isAccepted: false
 })
 
 const err = ref('')

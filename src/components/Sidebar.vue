@@ -12,6 +12,12 @@
                         <p>Dashboard</p>
                     </router-link>
                 </li>
+                <li v-if="role === 'Admin'" class="w-full">
+                    <router-link :to="{ name: 'staffs'}" class="w-full flex justify-start items-center pl-10 gap-x-3 py-2 hover:bg-blue-800">
+                        <Icon icon="mdi:people-group" class="text-3xl"/>
+                        <p>Staffs</p>
+                    </router-link>
+                </li>
                 <li class="w-full">
                     <router-link :to="{ name: 'residents'}" class="w-full flex justify-start items-center pl-10 gap-x-3 py-2 hover:bg-blue-800">
                         <Icon icon="mdi:people-group" class="text-3xl"/>

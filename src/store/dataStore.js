@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import { db } from '@config/firebaseConfig.js'; 
-import { collection, onSnapshot } from 'firebase/firestore'
+import { collection, onSnapshot, query, where } from 'firebase/firestore'
 
 const useDataStore = defineStore('dataStore', {
     state: () => ({
         households: [],
         announcements: [],
+        staffs: [],
         residents: [],
     }),
     getters: {
@@ -69,7 +70,8 @@ const useDataStore = defineStore('dataStore', {
         async getHouseholds() {
             const householdRef = collection(db, 'households');
             try {
-                this.households = []
+                this.staffs = []
+                const q = 
                 onSnapshot(
                     householdRef,
                     (snapshot) => {
@@ -82,7 +84,34 @@ const useDataStore = defineStore('dataStore', {
                             });
                         });
                         this.getResidents()
+                        this.getStaffs()
                         this.getAnnouncements()
+                    }
+                );
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async getStaffs() {
+            const residentsRef = collection(db, 'Users')
+
+            try {
+                this.staffs = [];
+                const q = query(
+                    residentsRef,
+                    where('role', '==', 'Staff')
+                )
+                onSnapshot(
+                    q,
+                    (snapshot) => {
+                        this.staffs = []; 
+                        
+                        snapshot.forEach(doc => {
+                            this.staffs.push({
+                                id: doc.id,
+                                ...doc.data()
+                            });
+                        });
                     }
                 );
             } catch (error) {

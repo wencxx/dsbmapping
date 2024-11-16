@@ -17,7 +17,15 @@ const routes = [
         path: '/dashboard',
         name: 'dashboard',
         component: dashboardView,
-        mete: {
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/staffs',
+        name: 'staffs',
+        component: () => import('../views/Staffs.vue'),
+        meta: {
             requiresAuth: true
         }
     },
@@ -25,7 +33,7 @@ const routes = [
         path: '/residents',
         name: 'residents',
         component: () => import('../views/Residents.vue'),
-        mete: {
+        meta: {
             requiresAuth: true
         }
     },
@@ -33,7 +41,7 @@ const routes = [
         path: '/households',
         name: 'households',
         component: () => import('../views/Households.vue'),
-        mete: {
+        meta: {
             requiresAuth: true
         }
     },
@@ -41,7 +49,7 @@ const routes = [
         path: '/reports',
         name: 'reports',
         component: () => import('../views/Reports.vue'),
-        mete: {
+        meta: {
             requiresAuth: true
         }
     },
@@ -49,7 +57,7 @@ const routes = [
         path: '/announcements',
         name: 'announcements',
         component: () => import('../views/Announcements.vue'),
-        mete: {
+        meta: {
             requiresAuth: true
         }
     },
@@ -57,7 +65,7 @@ const routes = [
         path: '/map',
         name: 'map',
         component: () => import('../views/Map.vue'),
-        mete: {
+        meta: {
             requiresAuth: true
         }
     },
@@ -65,9 +73,6 @@ const routes = [
         path: '/newsfeed',
         name: 'newsfeed',
         component: () => import('../views/ResidentsNewsfeed.vue'),
-        mete: {
-            requiresAuth: true
-        }
     }
 ]
 
