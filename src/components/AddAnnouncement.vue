@@ -12,6 +12,10 @@
                     <textarea class="h-10 w-72 lg:w-96 rounded border border-black pl-2 min-h-32" v-model="announcementData.description"></textarea>
                 </div>
                 <div class="flex flex-col gap-y-2">
+                    <label class="text-lg">When</label>
+                    <input type="datetime-local" class="h-10 w-72 lg:w-96 rounded border border-black pl-2" v-model="announcementData.when">
+                </div>
+                <div class="flex flex-col gap-y-2">
                     <label class="text-lg">Images</label>
                     <input type="file" class="h-10 w-72 lg:w-96 rounde" accept=".jpg, .jpeg, .png" multiple @change="handleImageUpload">
                 </div>
@@ -51,6 +55,7 @@ const residents = computed(() => dataStore.residents)
 const announcementData = ref({
     title: '',
     description: '',
+    when: ''
 })
 
 const images = ref([])
@@ -130,6 +135,7 @@ const addAnnouncement = async () => {
         announcementData.value = {
             title: '',
             description: '',
+            when: '',
         }
         $toast.success("Added announcement successfully")
     } catch (error) {

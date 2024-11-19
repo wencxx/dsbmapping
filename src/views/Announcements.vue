@@ -26,7 +26,7 @@
                         :key="announcement.id"
                         class="border border-gray-300 text-center"
                         >
-                          <td class="border border-gray-300 p-2">{{ announcement.title }}</td>
+                          <td class="border border-gray-300 p-2">{{ announcement.title + ' on '+ (moment(announcement.when).format('lll') || '') }}</td>
                           <td class="border border-gray-300 p-2">{{ announcement.description }}</td>
                           <td class="border border-gray-300 p-2">{{ formatDate(announcement.birthdate) }}</td>
                           <td class="border border-gray-300 p-2">

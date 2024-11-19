@@ -33,7 +33,7 @@ const announcements = computed(() => dataStore.announcements)
 
 const mappedAnnouncements = computed(() => {
   return announcements.value.map(ann => ({
-    date: ann.addedAt.toDate().toISOString().split('T')[0],
+    date: ann.when?.split('T')[0],
     title: ann.title,
     description: ann.description
   }))

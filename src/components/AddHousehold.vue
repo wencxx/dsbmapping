@@ -198,7 +198,7 @@ const addMarker = async (event) => {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
         const data = await response.json()
         if (data && data.display_name) {
-            householdData.value.address = data.display_name
+            // householdData.value.address = data.display_name
             householdData.value.lat = lat
             householdData.value.lng = lng
         }
