@@ -18,7 +18,7 @@
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label class="text-lg">Birthdate</label>
-                    <input type="date" class="h-10 rounded border border-black pl-2" v-model="residentData.birthdate">
+                    <input type="date" class="h-10 rounded border border-black pl-2" v-model="residentData.birthdate" @change="checkAgeIfBelow4">
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <label class="text-lg">Status</label>
@@ -53,6 +53,10 @@
                     </select>
                 </div>
                 <div class="flex flex-col gap-y-2">
+                    <label class="text-lg">Email</label>
+                    <input type="email" class="h-10 rounded border border-black pl-2" v-model="residentData.email">
+                </div>
+                <div class="flex flex-col gap-y-2">
                     <label class="text-lg">Household Number</label>
                     <select class="h-10 rounded border border-black pl-2" v-model="residentData.householdNumber">
                         <option value="">Select Household Number</option>
@@ -69,6 +73,19 @@
                     </select>
                 </div>
                 <h1 class="col-span-3 font-semibold text-lg">Medical History</h1>
+                <div v-if="isBelowFour" class="flex flex-col gap-y-2">
+                    <label class="text-lg">Immunize</label>
+                    <div class="flex items-center gap-x-5 rounded h-10">
+                        <div class="flex items-center gap-x-2">
+                            <label class="text-lg">Yes</label>
+                            <input type="radio" name="immunize" :value="true" v-model="residentData.isImmunize" class="w-4 aspect-square">
+                        </div>
+                        <div class="flex items-center gap-x-2">
+                            <label class="text-lg">No</label>
+                            <input type="radio" name="immunize" :value="false" v-model="residentData.isImmunize" class="w-4 aspect-square">
+                        </div>
+                    </div>
+                </div>
                 <div class="col-span-3 grid grid-cols-7 gap-3">
                     <div class="flex items-center justify-center gap-x-2">
                         <p>Hypertension</p>
@@ -135,10 +152,27 @@ const residentData = ref({
     status: '',
     gender: '',
     educationalAttainment: '',
+    email: '',
     householdNumber: '',
     religion: '',
     medicalHistory: [],
+    isImmunize: '',
 })
+
+const isBelowFour = ref(false)
+
+const checkAgeIfBelow4 = () => {
+    const today = new Date()
+    const todaysYear = today.getFullYear()
+    const birthday = new Date(residentData.value.birthdate)
+    const birthYear = birthday.getFullYear()
+
+    if(todaysYear - birthYear <= 4){
+        isBelowFour.value = true
+    }else{
+        isBelowFour.value = false
+    }
+}
 
 const emit = defineEmits(['closeModal'])
 
@@ -155,7 +189,11 @@ const addResident = async () => {
     err.value = ''
     try {
         addingResident.value = true
-        if(!residentData.value.householdNumber || !residentData.value.firstName || !residentData.value.lastName || !residentData.value.gender || !residentData.value.educationalAttainment || !residentData.value.birthdate || !residentData.value.status) return err.value = 'Fill out required fields'
+        if(!residentData.value.householdNumber || !residentData.value.firstName || !residentData.value.lastName || !residentData.value.gender || !residentData.value.educationalAttainment || !residentData.value.birthdate || !residentData.value.status){
+            err.value = 'Fill out required fields'
+            addingResident.value = false            
+            return
+        }
         const snapshot = await addDoc(residentRef, {
             ...residentData.value,
             addedAt: Timestamp.now()

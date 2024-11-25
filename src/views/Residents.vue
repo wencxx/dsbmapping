@@ -21,6 +21,7 @@
                           <th class="border border-gray-300 p-2">Medical History</th>
                           <th class="border border-gray-300 p-2">Status</th>
                           <th class="border border-gray-300 p-2">Religion</th>
+                          <th class="border border-gray-300 p-2">Immunize</th>
                           <th class="border border-gray-300 p-2">Action</th>
                         </tr>
                     </thead>
@@ -40,6 +41,7 @@
                           <td v-else class="border border-gray-300 p-2">N/A</td>
                           <td class="border border-gray-300 p-2">{{ resident.status }}</td>
                           <td class="border border-gray-300 p-2">{{ resident.religion }}</td>
+                          <td class="border border-gray-300 p-2">{{ typeof(resident.isImmunize) == 'string' ? 'N/A' : resident.isImmunize }}</td>
                           <td>
                             <div class="flex items-center justify-center">
                                 <button @click="updateResident(resident)">
