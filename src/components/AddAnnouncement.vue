@@ -86,60 +86,64 @@ const removeImage = (index) => {
 const announcementRef = collection(db, 'announcements')
 const addingAnnouncement = ref(false)
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const addAnnouncement = async () => {
     try {
-        addingAnnouncement.value = true
-        const imageUrls = []
+        addingAnnouncement.value = true;
+        const imageUrls = [];
 
         for (const image of images.value) {
-            const storageRefInstance = storageRef(storage, `announcements/${image.name}`)
-            const snapshot = await uploadBytes(storageRefInstance, image)
-            const downloadUrl = await getDownloadURL(snapshot.ref)
-            imageUrls.push(downloadUrl)
+            const storageRefInstance = storageRef(storage, `announcements/${image.name}`);
+            const snapshot = await uploadBytes(storageRefInstance, image);
+            const downloadUrl = await getDownloadURL(snapshot.ref);
+            imageUrls.push(downloadUrl);
         }
 
         const snapshot = await addDoc(announcementRef, {
             ...announcementData.value,
             images: imageUrls,
-            addedAt: Timestamp.now()
-        })  
-        
-        if(snapshot.empty) return $toast.error("Failed to add announcement")
-        for(const res of residents.value){
-            var templateParams = {
-            name: res.firstName,
-            to: res.email,
-            from: 'Rural Health Unit',
-            };
+            addedAt: Timestamp.now(),
+        });
 
-            emailjs
-            .send(
-                'service_3k2ha2s',
-                'template_2apc7wh',
-                templateParams,
-                'yqf3r_scJmWURJ-Ju'
-            )
-            .then(
-                (response) => {
-                    console.log('SUCCESS!', response.status, response.text);
-                },
-                (error) => {
-                    console.log('FAILED...', error);
-                }
-            )
-        }
-        closeModal()
-        addingAnnouncement.value = false
-        fileName.value = []
-        images.value = []
+        if (snapshot.empty) return $toast.error("Failed to add announcement");
+
+        closeModal();
+        addingAnnouncement.value = false;
+        
+        fileName.value = [];
+        images.value = [];
         announcementData.value = {
             title: '',
             description: '',
             when: '',
+        };
+        $toast.success("Added announcement successfully");
+
+        for (const res of residents.value) {
+            const templateParams = {
+                name: res.firstName,
+                to: res.email,
+                from: 'Rural Health Unit',
+            };
+
+            try {
+                await emailjs.send(
+                    'service_3k2ha2s',
+                    'template_2apc7wh',
+                    templateParams,
+                    'yqf3r_scJmWURJ-Ju'
+                );
+                console.log(`Email sent to ${res.email}`);
+            } catch (error) {
+                console.error(`Failed to send email to ${res.email}:`, error);
+            }
+
+            await delay(1000); 
         }
-        $toast.success("Added announcement successfully")
     } catch (error) {
-        $toast.error(error.message)
+        $toast.error(error.message);
     }
-}
+};
+
 </script>

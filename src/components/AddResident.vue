@@ -40,6 +40,28 @@
                     </select>
                 </div>
                 <div class="flex flex-col gap-y-2">
+                    <label class="text-lg">Relationship to the Household Head</label>
+                    <select class="h-10 rounded border border-black pl-2" v-model="residentData.relationshipToTheHead">
+                        <option value="">Relationship to the Household Head</option>
+                        <option>Spouse</option>
+                        <option>Child</option>
+                        <option>Son-in-law</option>
+                        <option>Daughter-in-law</option>
+                        <option>Grandchild</option>
+                        <option>Parent</option>
+                        <option>Parent-in-law</option>
+                        <option>Sibling</option>
+                        <option>Brother-in-law</option>
+                        <option>Sister-in-law</option>
+                        <option>Nephew</option>
+                        <option>Niece</option>
+                        <option>Other Relative</option>
+                        <option>Household Help</option>
+                        <option>Boarder</option>
+                        <option>Other Non-relative</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-y-2">
                     <label class="text-lg">Educational Attainment</label>
                     <select class="h-10 rounded border border-black pl-2" v-model="residentData.educationalAttainment">
                         <option value="">Select Educational Attainment</option>
@@ -50,6 +72,10 @@
                         <option>Highschool/SHS Graduate</option>
                         <option>College Level</option>
                         <option>College Graduate</option>
+                        <option>Master's Level</option>
+                        <option>Master's Degree</option>
+                        <option>Doctorate's Level</option>
+                        <option>Doctorate's Degrree</option>
                     </select>
                 </div>
                 <div class="flex flex-col gap-y-2">
@@ -69,12 +95,21 @@
                         <option value="">Select Religion</option>
                         <option>Roman Catholic</option>
                         <option>Baptist</option>
+                        <option>Islam</option>
+                        <option>Iglesia Ni Cristo</option>
+                        <option>IFI</option>
+                        <option>PGDA</option>
+                        <option>Protestants</option>
                         <option>Seventh Day Adventist</option>
+                        <option>Jehovah's Witness</option>
+                        <option>Born Again Christian</option>
+                        <option>Church of Jesus Christ of Latter-Day Saints (Mormon)</option>
+                        <option>Others</option>
                     </select>
                 </div>
                 <h1 class="col-span-3 font-semibold text-lg">Medical History</h1>
                 <div v-if="isBelowFour" class="flex flex-col gap-y-2">
-                    <label class="text-lg">Immunize</label>
+                    <label class="text-lg">Has the Child Receive Vaccines?</label>
                     <div class="flex items-center gap-x-5 rounded h-10">
                         <div class="flex items-center gap-x-2">
                             <label class="text-lg">Yes</label>
@@ -85,7 +120,7 @@
                             <input type="radio" name="immunize" :value="false" v-model="residentData.isImmunize" class="w-4 aspect-square">
                         </div>
                     </div>
-                </div>
+                </div> 
                 <div class="col-span-3 grid grid-cols-7 gap-3">
                     <div class="flex items-center justify-center gap-x-2">
                         <p>Hypertension</p>
@@ -151,6 +186,7 @@ const residentData = ref({
     birthdate: '',
     status: '',
     gender: '',
+    relationshipToTheHead: '',
     educationalAttainment: '',
     email: '',
     householdNumber: '',
@@ -189,7 +225,7 @@ const addResident = async () => {
     err.value = ''
     try {
         addingResident.value = true
-        if(!residentData.value.householdNumber || !residentData.value.firstName || !residentData.value.lastName || !residentData.value.gender || !residentData.value.educationalAttainment || !residentData.value.birthdate || !residentData.value.status){
+        if(!residentData.value.householdNumber || !residentData.value.relationshipToTheHead || !residentData.value.firstName || !residentData.value.lastName || !residentData.value.gender || !residentData.value.educationalAttainment || !residentData.value.birthdate || !residentData.value.status){
             err.value = 'Fill out required fields'
             addingResident.value = false            
             return

@@ -12,7 +12,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="res in filteredResidents" :key="res.id" class="text-center">
-                        <td class="border">{{ res.firstName + ' ' + res.firstName + ' ' + res.firstName }}</td>
+                        <td class="border">{{ res.firstName + ' ' + res.middleName + ' ' + res.lastName }}</td>
                         <td class="border">{{ res.householdNumber }}</td>
                     </tr>
                 </tbody>

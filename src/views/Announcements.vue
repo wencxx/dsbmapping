@@ -48,7 +48,9 @@
                     <button @click="prevPage" :disabled="currentPage === 1" class="bg-gray-300 text-white w-6 h-7  flex items-center justify-center">
                         <Icon icon="weui:arrow-outlined" class="rotate-180" />
                     </button>
+                    <span class="bg-gray-300 w-6 h-7 text-white text-center">{{ currentPage - 1 }}</span>
                     <span class="bg-blue-500 w-6 h-7 text-white text-center">{{ currentPage }}</span>
+                    <span class="bg-gray-300 w-6 h-7 text-white text-center">{{ currentPage + 1 }}</span>
                     <button @click="nextPage" :disabled="currentPage === totalPages" class="bg-gray-300 text-white w-6 h-7 flex items-center justify-center">
                         <Icon icon="weui:arrow-outlined" />
                     </button>

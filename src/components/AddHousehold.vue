@@ -66,6 +66,10 @@
                         <option>Highschool/SHS Graduate</option>
                         <option>College Level</option>
                         <option>College Graduate</option>
+                        <option>Master's Level</option>
+                        <option>Master's Degree</option>
+                        <option>Doctorate's Level</option>
+                        <option>Doctorate's Degrree</option>
                     </select>
                 </div>
                 <div class="flex flex-col gap-y-2">
@@ -74,7 +78,16 @@
                         <option value="">Select Religion</option>
                         <option>Roman Catholic</option>
                         <option>Baptist</option>
+                        <option>Islam</option>
+                        <option>Iglesia Ni Cristo</option>
+                        <option>IFI</option>
+                        <option>PGDA</option>
+                        <option>Protestants</option>
                         <option>Seventh Day Adventist</option>
+                        <option>Jehovah's Witness</option>
+                        <option>Born Again Christian</option>
+                        <option>Church of Jesus Christ of Latter-Day Saints (Mormon)</option>
+                        <option>Others</option>
                     </select>
                 </div>
                 <div class="flex flex-col gap-y-2">

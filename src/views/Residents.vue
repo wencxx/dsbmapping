@@ -11,61 +11,67 @@
             <div class="container mx-auto">
                 <input type="text" v-model="searchTerm" placeholder="Search..." class="border float-end border-gray-300 rounded pl-2 h-8 mb-4" />
 
-                <table class="min-w-full border border-gray-300">
-                    <thead>
-                        <tr class="bg-gray-100">
-                          <th class="border border-gray-300 p-2">Household Number</th>
-                          <th class="border border-gray-300 p-2">Name</th>
-                          <th class="border border-gray-300 p-2">Birthdate</th>
-                          <th class="border border-gray-300 p-2">Gender</th>
-                          <th class="border border-gray-300 p-2">Medical History</th>
-                          <th class="border border-gray-300 p-2">Status</th>
-                          <th class="border border-gray-300 p-2">Religion</th>
-                          <th class="border border-gray-300 p-2">Immunize</th>
-                          <th class="border border-gray-300 p-2">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody v-if="paginatedData.length > 0">
-                        <tr
-                        v-for="resident in paginatedData"
-                        :key="resident.id"
-                        class="border border-gray-300 text-center"
-                        >
-                          <td class="border border-gray-300 p-2">{{ resident.householdNumber }}</td>
-                          <td class="border border-gray-300 p-2">{{ resident.firstName }} {{ resident.middleName }} {{ resident.lastName }}</td>
-                          <td class="border border-gray-300 p-2">{{ formatDate(resident.birthdate) }}</td>
-                          <td class="border border-gray-300 p-2">{{ resident.gender }}</td>
-                          <td v-if="resident.medicalHistory.length" class="border border-gray-300 p-2">
-                            {{ resident.medicalHistory.join(', ') }}
-                          </td>
-                          <td v-else class="border border-gray-300 p-2">N/A</td>
-                          <td class="border border-gray-300 p-2">{{ resident.status }}</td>
-                          <td class="border border-gray-300 p-2">{{ resident.religion }}</td>
-                          <td class="border border-gray-300 p-2">{{ typeof(resident.isImmunize) == 'string' ? 'N/A' : resident.isImmunize }}</td>
-                          <td>
-                            <div class="flex items-center justify-center">
-                                <button @click="updateResident(resident)">
-                                    <Icon icon="mdi:pencil" class="text-green-500 text-xl" />
-                                </button>
-                                <button @click="showDeleteModal(resident.id)">
-                                    <Icon icon="mdi:trash" class="text-red-500 text-xl" />
-                                </button>
-                            </div>
-                          </td>
-                        </tr>
-                    </tbody>
-                    <tbody v-else>
-                        <tr>
-                            <td colspan="8" class="py-2 text-center">No residents</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="min-w-full overflow-x-auto">
+                  <table class="w-[120%] border border-gray-300">
+                      <thead>
+                          <tr class="bg-gray-100">
+                            <th class="border border-gray-300 p-2">Household Number</th>
+                            <th class="border border-gray-300 p-2">Name</th>
+                            <th class="border border-gray-300 p-2">Birthdate</th>
+                            <th class="border border-gray-300 p-2">Gender</th>
+                            <th class="border border-gray-300 p-2">Medical History</th>
+                            <th class="border border-gray-300 p-2">Status</th>
+                            <th class="border border-gray-300 p-2">Religion</th>
+                            <th class="border border-gray-300 p-2">Immunize</th>
+                            <th class="border border-gray-300 p-2">Relationship to Head</th>
+                            <th class="border border-gray-300 p-2">Action</th>
+                          </tr>
+                      </thead>
+                      <tbody v-if="paginatedData.length > 0">
+                          <tr
+                          v-for="resident in paginatedData"
+                          :key="resident.id"
+                          class="border border-gray-300 text-center"
+                          >
+                            <td class="border border-gray-300 p-2">{{ resident.householdNumber }}</td>
+                            <td class="border border-gray-300 p-2">{{ resident.firstName }} {{ resident.middleName }} {{ resident.lastName }}</td>
+                            <td class="border border-gray-300 p-2">{{ formatDate(resident.birthdate) }}</td>
+                            <td class="border border-gray-300 p-2">{{ resident.gender }}</td>
+                            <td v-if="resident.medicalHistory.length" class="border border-gray-300 p-2">
+                              {{ resident.medicalHistory.join(', ') }}
+                            </td>
+                            <td v-else class="border border-gray-300 p-2">N/A</td>
+                            <td class="border border-gray-300 p-2">{{ resident.status }}</td>
+                            <td class="border border-gray-300 p-2">{{ resident.religion }}</td>
+                            <td class="border border-gray-300 p-2">{{ typeof(resident.isImmunize) == 'undefined' || typeof(resident.isImmunize) == 'string'  ? 'N/A' : resident.isImmunize }}</td>
+                            <td class="border border-gray-300 p-2">{{ resident.relationshipToTheHead || 'Head' }}</td>
+                            <td>
+                              <div class="flex items-center justify-center">
+                                  <button @click="updateResident(resident)">
+                                      <Icon icon="mdi:pencil" class="text-green-500 text-xl" />
+                                  </button>
+                                  <button @click="showDeleteModal(resident.id)">
+                                      <Icon icon="mdi:trash" class="text-red-500 text-xl" />
+                                  </button>
+                              </div>
+                            </td>
+                          </tr>
+                      </tbody>
+                      <tbody v-else>
+                          <tr>
+                              <td colspan="8" class="py-2 text-center">No residents</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
 
                 <div class="flex justify-end items-center mt-4">
                     <button @click="prevPage" :disabled="currentPage === 1" class="bg-gray-300 text-white w-6 h-7  flex items-center justify-center">
                         <Icon icon="weui:arrow-outlined" class="rotate-180" />
                     </button>
+                    <span class="bg-gray-300 w-6 h-7 text-white text-center">{{ currentPage -1 }}</span>
                     <span class="bg-blue-500 w-6 h-7 text-white text-center">{{ currentPage }}</span>
+                    <span class="bg-gray-300 w-6 h-7 text-white text-center">{{ currentPage + 1 }}</span>
                     <button @click="nextPage" :disabled="currentPage === totalPages" class="bg-gray-300 text-white w-6 h-7 flex items-center justify-center">
                         <Icon icon="weui:arrow-outlined" />
                     </button>
