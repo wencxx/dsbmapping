@@ -113,16 +113,12 @@ const addAnnouncement = async () => {
         
         fileName.value = [];
         images.value = [];
-        announcementData.value = {
-            title: '',
-            description: '',
-            when: '',
-        };
         $toast.success("Added announcement successfully");
 
         for (const res of residents.value) {
             const templateParams = {
                 name: res.firstName,
+                eventName: announcementData.value.title,
                 to: res.email,
                 from: 'Rural Health Unit',
             };
@@ -141,6 +137,12 @@ const addAnnouncement = async () => {
 
             await delay(1000); 
         }
+
+        announcementData.value = {
+            title: '',
+            description: '',
+            when: '',
+        };
     } catch (error) {
         $toast.error(error.message);
     }

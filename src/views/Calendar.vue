@@ -46,9 +46,10 @@ const filteredAnnouncements = ref([])
 const handleDateClick = (arg) => {
   selectedDate.value = arg.dateStr
   filteredAnnouncements.value = announcements.value.filter(
-    ann => ann.addedAt.toDate().toISOString().split('T')[0] === arg.dateStr
+    ann => ann.when.split('T')[0] === arg.dateStr
   )
-  showModal.value = filteredAnnouncements.value.length > 0
+
+  showModal.value = true
 }
 
 const closeModal = () => {
