@@ -114,7 +114,7 @@ const deleteAnnouncement = async () => {
 
 const searchTerm = ref('');
 const currentPage = ref(1);
-const itemsPerPage = 5;
+const itemsPerPage = 15;
 
 const filteredData = computed(() => {
   return announcements.value.filter((item) =>

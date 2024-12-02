@@ -101,7 +101,7 @@ const vaccinatedChildren = computed(() => {
 })
 
 const unvaccinatedChilddren = computed(() => {
-  const unvaccinated = residents.value.filter(resident => typeof(resident.isImmunize) != 'string' && !resident.isImmunize)
+  const unvaccinated = residents.value.filter(resident => resident.isImmunize === false)
 
   return unvaccinated.length
 })

@@ -41,7 +41,7 @@ const filteredResidents = computed(() => {
     }else if(type === 'vaccinated'){
         return residents.value.filter(resident => resident.isImmunize)
     }else if(type === 'unvaccinated'){
-        return residents.value.filter(resident => typeof(resident.isImmunize) != 'string' && !resident.isImmunize)
+        return residents.value.filter(resident => resident.isImmunize === false)
     }
 })
 </script>
