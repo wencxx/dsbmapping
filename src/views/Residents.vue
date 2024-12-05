@@ -23,6 +23,7 @@
                             <th class="border border-gray-300 p-2">Status</th>
                             <th class="border border-gray-300 p-2">Religion</th>
                             <th class="border border-gray-300 p-2">Immunize</th>
+                            <th class="border border-gray-300 p-2">Dewormed</th>
                             <th class="border border-gray-300 p-2">Relationship to Head</th>
                             <th class="border border-gray-300 p-2">Action</th>
                           </tr>
@@ -47,6 +48,7 @@
                               {{ resident.immunization.join(', ') }}
                             </td>
                             <td v-else class="border border-gray-300 p-2">N/A</td>
+                            <td class="border border-gray-300 p-2">{{ typeof(resident.isDewormed) === 'string' || typeof(resident.isDewormed) === 'undefined' ? 'N/A' : resident.isDewormed ? 'Yes' : 'No' }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.relationshipToTheHead || 'Head' }}</td>
                             <td>
                               <div class="flex items-center justify-center">
