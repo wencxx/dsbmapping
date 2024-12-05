@@ -23,7 +23,7 @@
                           <td class="border border-gray-300 p-2 capitalize">{{ staff.firstName + ' ' + staff.lastName }}</td>
                           <td class="border border-gray-300 p-2 capitalize">{{ staff.email }}</td>
                           <td class="border border-gray-300 p-2 capitalize">
-                            <button class="bg-green-500 w-3/4 py-1 text-white rounded capitalize" :class="{ 'bg-red-500': !staff.isAccepted }">{{ staff.isAccepted }}</button>
+                            <button class="bg-green-500 w-3/4 py-1 text-white rounded capitalize" :class="{ 'bg-red-500': !staff.isAccepted }">{{ staff.isAccepted === true ? 'active' : 'inactive' }}</button>
                           </td>
                           <td>
                             <div class="flex items-center justify-center">

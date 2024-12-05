@@ -38,10 +38,8 @@ const residents = computed(() => dataStore.residents)
 const filteredResidents = computed(() => {
     if(type === 'disease'){
         return residents.value.filter(res => res.medicalHistory.includes(disease))
-    }else if(type === 'vaccinated'){
-        return residents.value.filter(resident => resident.isImmunize)
-    }else if(type === 'unvaccinated'){
-        return residents.value.filter(resident => resident.isImmunize === false)
+    }else if(type === 'immunizations'){
+        return residents.value.filter(res => res.immunization?.includes(disease))
     }
 })
 </script>

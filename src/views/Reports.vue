@@ -3,12 +3,12 @@
     <div class="rounded-md bg-white p-10 shadow">
       <h1 class="font-semibold text-xl">Medical Reports</h1>
       <div class="container mx-auto">
-        <input
+        <!-- <input
           type="text"
           v-model="searchTerm"
           placeholder="Search..."
           class="border float-end border-gray-300 rounded pl-2 h-8 mb-4"
-        />
+        /> -->
 
         <table class="min-w-full border border-gray-300">
           <thead>
@@ -17,7 +17,7 @@
               <th class="border border-gray-300 p-2 uppercase">Resident with Disease</th>
             </tr>
           </thead>
-          <tbody v-if="paginatedData.length > 0">
+          <tbody v-if="paginatedData.length">
             <tr
               v-for="([key, value], index) in paginatedData"
               :key="index"
@@ -34,7 +34,7 @@
           </tbody>
         </table>
 
-        <div class="flex justify-end items-center mt-4">
+        <!-- <div class="flex justify-end items-center mt-4">
           <button
             @click="prevPage"
             :disabled="currentPage === 1"
@@ -50,28 +50,30 @@
           >
             <Icon icon="weui:arrow-outlined" />
           </button>
-        </div>
+        </div> -->
 
       <h1 class="font-semibold text-xl mt-20">Reports on Vaccinated Children (0-59 months)</h1>
 
-        <table class="min-w-full border border-gray-300 mt-5">
+        <table class="min-w-full border border-gray-300">
           <thead>
             <tr class="bg-gray-100">
-              <th class="border border-gray-300 p-2 uppercase">Vaccinated</th>
-              <th class="border border-gray-300 p-2 uppercase">Unvaccinated</th>
-              <th class="border border-gray-300 p-2 uppercase">Total</th>
+              <th class="border border-gray-300 p-2 uppercase">Immunization</th>
+              <th class="border border-gray-300 p-2 uppercase">Immunize Childrens</th>
             </tr>
           </thead>
-          <tbody v-if="paginatedData.length > 0">
-            <tr class="text-center">
-              <td class="border border-gray-300 p-2 cursor-pointer" @click="showResidentsData('vaccinated', 'vaccinated')">{{ vaccinatedChildren }}</td>
-              <td class="border border-gray-300 p-2 cursor-pointer" @click="showResidentsData('unvaccinated', 'unvaccinated')">{{ unvaccinatedChilddren }}</td>
-              <td class="border border-gray-300 p-2">{{ unvaccinatedChilddren + vaccinatedChildren }}</td>
+          <tbody v-if="Object.keys(immunization)?.length">
+            <tr
+              v-for="(value, key, index) in immunization"
+              :key="index"
+              class="border border-gray-300 text-center"
+            >
+              <td class="border border-gray-300 p-2">{{ key }}</td>
+              <td class="border border-gray-300 p-2 cursor-pointer" @click="showResidentsData(key, 'immunizations')">{{ value }}</td>
             </tr>
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="3" class="py-2 text-center">No data to show</td>
+              <td colspan="2" class="py-2 text-center">No data to show</td>
             </tr>
           </tbody>
         </table>
@@ -92,19 +94,8 @@ const $toast = useToast();
 const dataStore = useDataStore();
 
 const diseases = computed(() => dataStore.groupedByMedical);
-const residents = computed(() => dataStore.residents);
+const immunization = computed(() => dataStore.groupedByImmunization);
 
-const vaccinatedChildren = computed(() => {
-  const vaccinated = residents.value.filter(resident => resident.isImmunize)
-
-  return vaccinated.length
-})
-
-const unvaccinatedChilddren = computed(() => {
-  const unvaccinated = residents.value.filter(resident => resident.isImmunize === false)
-
-  return unvaccinated.length
-})
 
 const searchTerm = ref('');
 const currentPage = ref(1);
@@ -126,18 +117,8 @@ const paginatedData = computed(() => {
   return filteredData.value.slice(start, start + itemsPerPage.value);
 });
 
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-  }
-};
 
-const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-  }
-};
-
+// show modal
 const showModal = ref(false)
 const diseaseToShow = ref('')
 const typeToShow = ref('')

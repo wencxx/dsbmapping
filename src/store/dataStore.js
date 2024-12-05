@@ -65,6 +65,22 @@ const useDataStore = defineStore('dataStore', {
 
             return grouped;
         },
+        groupedByImmunization(state){
+            const grouped = {};
+
+            state.residents.forEach(resident => {
+                if(resident.immunization){
+                    resident.immunization.forEach(immunize => {
+                        if(!grouped[immunize]){
+                            grouped[immunize] = 0
+                        }
+                        grouped[immunize]++
+                    })
+                }
+            });
+
+            return grouped;
+        },
     },  
     actions: {
         async getHouseholds() {

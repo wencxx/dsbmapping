@@ -12,7 +12,7 @@
                 <input type="text" v-model="searchTerm" placeholder="Search..." class="border float-end border-gray-300 rounded pl-2 h-8 mb-4" />
 
                 <div class="min-w-full overflow-x-auto">
-                  <table class="w-[120%] border border-gray-300">
+                  <table class="w-[150%] border border-gray-300">
                       <thead>
                           <tr class="bg-gray-100">
                             <th class="border border-gray-300 p-2">Household Number</th>
@@ -43,7 +43,10 @@
                             <td v-else class="border border-gray-300 p-2">N/A</td>
                             <td class="border border-gray-300 p-2">{{ resident.status }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.religion }}</td>
-                            <td class="border border-gray-300 p-2">{{ typeof(resident.isImmunize) == 'undefined' || typeof(resident.isImmunize) == 'string'  ? 'N/A' : resident.isImmunize }}</td>
+                            <td v-if="resident.immunization?.length" class="border border-gray-300 p-2">
+                              {{ resident.immunization.join(', ') }}
+                            </td>
+                            <td v-else class="border border-gray-300 p-2">N/A</td>
                             <td class="border border-gray-300 p-2">{{ resident.relationshipToTheHead || 'Head' }}</td>
                             <td>
                               <div class="flex items-center justify-center">

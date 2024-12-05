@@ -16,6 +16,15 @@
                 <input type="email" class="rounded h-8 pl-2" v-model="userData.email">
             </div>
             <div class="w-full flex flex-col gap-y-2">
+                <label class="text-white text-lg">Email</label>
+                <select class="rounded h-8 pl-2" v-model="userData.role" @change="handleRoleChange">
+                    <option value="" disabled>Select role</option>
+                    <option value="Staff">BHW</option>
+                    <option value="Midwife">Staff</option>
+                    <option value="Residents">Residents</option>
+                </select>
+            </div>
+            <div class="w-full flex flex-col gap-y-2">
                 <label class="text-white text-lg">Password</label>
                 <input type="password" class="rounded h-8 pl-2" v-model="password">
             </div>
@@ -44,11 +53,19 @@ const router = useRouter()
 const secondPassword = ref('')
 const password = ref('')
 
+const handleRoleChange = () => {
+    if(userData.value.role === 'Residents'){
+        userData.value.isAccepted = true
+    }else{
+        userData.value.isAccepted = false
+    }
+}
+
 const userData = ref({
     firstName: '',
     lastName: '',
     email: '',
-    role: 'Staff',
+    role: '',
     isAccepted: false
 })
 

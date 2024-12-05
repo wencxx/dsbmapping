@@ -81,6 +81,9 @@ const routes = [
         path: '/newsfeed',
         name: 'newsfeed',
         component: () => import('../views/ResidentsNewsfeed.vue'),
+        meta: {
+            requiresAuth: true
+        }
     }
 ]
 

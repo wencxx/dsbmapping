@@ -39,6 +39,14 @@
                         <option>Female</option>
                     </select>
                 </div>
+                <div v-if="isBelowFour" class="flex flex-col gap-y-2">
+                    <label class="text-lg">Weight</label>
+                    <input type="text" class="h-10 rounded border border-black pl-2" v-model="residentData.weight">
+                </div>
+                <div v-if="isBelowFour" class="flex flex-col gap-y-2">
+                    <label class="text-lg">Height</label>
+                    <input type="text" class="h-10 rounded border border-black pl-2" v-model="residentData.height">
+                </div>
                 <div class="flex flex-col gap-y-2">
                     <label class="text-lg">Relationship to the Household Head</label>
                     <select class="h-10 rounded border border-black pl-2" v-model="residentData.relationshipToTheHead">
@@ -107,20 +115,51 @@
                         <option>Others</option>
                     </select>
                 </div>
-                <h1 class="col-span-3 font-semibold text-lg">Medical History</h1>
-                <div v-if="isBelowFour" class="flex flex-col gap-y-2">
-                    <label class="text-lg">Has the Child Receive Vaccines?</label>
+                <div v-if="isBetweenSix" class="flex flex-col gap-y-2 col-span-3">
+                    <label class="text-lg">Deworming</label>
                     <div class="flex items-center gap-x-5 rounded h-10">
                         <div class="flex items-center gap-x-2">
                             <label class="text-lg">Yes</label>
-                            <input type="radio" name="immunize" :value="true" v-model="residentData.isImmunize" class="w-4 aspect-square">
+                            <input type="radio" name="deworming" :value="true" v-model="residentData.isDewormed" class="w-4 aspect-square">
                         </div>
                         <div class="flex items-center gap-x-2">
                             <label class="text-lg">No</label>
-                            <input type="radio" name="immunize" :value="false" v-model="residentData.isImmunize" class="w-4 aspect-square">
+                            <input type="radio" name="deworming" :value="false" v-model="residentData.isDewormed" class="w-4 aspect-square">
                         </div>
                     </div>
                 </div> 
+                <h1 v-if="isBelowFour" class="col-span-3 font-semibold text-lg">Immunization</h1>
+                <div v-if="isBelowFour" class="col-span-3 grid grid-cols-5 gap-3">
+                    <div class="flex items-center justify-center gap-x-2">
+                        <p>BCG</p>
+                        <input type="checkbox" class="border w-4 aspect-square" value="BCG" v-model="residentData.immunization">
+                    </div>
+                    <div class="flex items-center justify-center gap-x-2">
+                        <p>Hepa B</p>
+                        <input type="checkbox" class="border w-4 aspect-square" value="Hepa B" v-model="residentData.immunization">
+                    </div>
+                    <div class="flex items-center justify-center gap-x-2">
+                        <p>DPT-Hepa B-HiB</p>
+                        <input type="checkbox" class="border w-4 aspect-square" value="DPT-Hepa B-HiB" v-model="residentData.immunization"> 
+                    </div>
+                    <div class="flex items-center justify-center gap-x-2">
+                        <p>OPV</p>
+                        <input type="checkbox" class="border w-4 aspect-square" value="OPV" v-model="residentData.immunization">
+                    </div>
+                    <div class="flex items-center justify-center gap-x-2">
+                        <p>IPV</p>
+                        <input type="checkbox" class="border w-4 aspect-square" value="IPV" v-model="residentData.immunization">
+                    </div>
+                    <div class="flex items-center justify-center gap-x-2">
+                        <p>PCV</p>
+                        <input type="checkbox" class="border w-4 aspect-square" value="PCV" v-model="residentData.immunization">
+                    </div>
+                    <div class="flex items-center justify-center gap-x-2">
+                        <p>MMR</p>
+                        <input type="checkbox" class="border w-4 aspect-square" value="MMR" v-model="residentData.immunization">
+                    </div>
+                </div>
+                <h1 class="col-span-3 font-semibold text-lg">Medical History</h1>
                 <div class="col-span-3 grid grid-cols-7 gap-3">
                     <div class="flex items-center justify-center gap-x-2">
                         <p>Hypertension</p>
@@ -186,16 +225,20 @@ const residentData = ref({
     birthdate: '',
     status: '',
     gender: '',
+    weight: '',
+    height: '',
     relationshipToTheHead: '',
     educationalAttainment: '',
     email: '',
     householdNumber: '',
     religion: '',
     medicalHistory: [],
-    isImmunize: '',
+    immunization: [],
+    isDewormed: '',
 })
 
 const isBelowFour = ref(false)
+const isBetweenSix = ref(false)
 
 const checkAgeIfBelow4 = () => {
     const today = new Date()
@@ -203,10 +246,20 @@ const checkAgeIfBelow4 = () => {
     const birthday = new Date(residentData.value.birthdate)
     const birthYear = birthday.getFullYear()
 
-    if(todaysYear - birthYear <= 4){
-        isBelowFour.value = true
-    }else{
-        isBelowFour.value = false
+    if (todaysYear - birthYear <= 6) {
+        if(todaysYear - birthYear >= 2){
+            isBetweenSix.value = true;
+        }else{
+            isBetweenSix.value = false
+        }
+        if(todaysYear - birthYear <= 4){
+            isBelowFour.value = true;
+        }else{
+            isBelowFour.value = false;
+        }
+    }else {
+        isBelowFour.value = false;
+        isBetweenSix.value = false;
     }
 }
 

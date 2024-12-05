@@ -79,6 +79,9 @@ const login = async () => {
                     autStore.login(credentials.user.accessToken, credentials.user, snapshot.docs[0].data().role)
                     router.push('/residents')
                 }
+            }else if(snapshot.docs[0].data().role === 'Residents'){
+                autStore.login(credentials.user.accessToken, credentials.user, snapshot.docs[0].data().role)
+                router.push('/newsfeed')
             }
         }
     } catch (error) {

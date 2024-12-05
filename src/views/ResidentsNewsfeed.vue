@@ -1,7 +1,7 @@
 <template>
     <div class="overflow-auto">
         <div class="flex items-center flex-col gap-y-10">
-            <div v-for="(announcement, index) in announcements" :key="index" class="w-2/5 flex flex-col gap-y-5 bg-white p-10 rounded-md shadow">
+            <div v-for="(announcement, index) in announcements" :key="index" class="w-full max-w-3xl flex flex-col gap-y-5 bg-white p-10 rounded-md shadow">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-x-2">
                         <img src="../assets/logo.png" alt="logo" class="w-10 aspect-square">
@@ -13,7 +13,7 @@
                     <h1 class="font-medium capitalize">{{ announcement.title }}</h1>
                     <p class="">{{ announcement.description }}</p>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid gap-2" :class="{ 'grid-cols-2': announcement.images?.length > 1 }">
                     <img v-for="image in announcement.images" :key="image" :src="image" alt="post image" class="rounded aspect-square object-cover">
                 </div>
             </div>
