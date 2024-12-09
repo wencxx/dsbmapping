@@ -79,6 +79,14 @@ const login = async () => {
                     autStore.login(credentials.user.accessToken, credentials.user, snapshot.docs[0].data().role)
                     router.push('/residents')
                 }
+            }else if(snapshot.docs[0].data().role === 'Midwife'){
+                if(!snapshot.docs[0].data().isAccepted){
+                    notAccepted.value = true
+                    return
+                }else{
+                    autStore.login(credentials.user.accessToken, credentials.user, snapshot.docs[0].data().role)
+                    router.push('/residents')
+                }
             }else if(snapshot.docs[0].data().role === 'Residents'){
                 autStore.login(credentials.user.accessToken, credentials.user, snapshot.docs[0].data().role)
                 router.push('/newsfeed')
@@ -87,7 +95,7 @@ const login = async () => {
     } catch (error) {
         console.log(error)
         if (error.code === 'auth/invalid-credential') {
-            err.value = 'Invali Credential.';
+            err.value = 'Invalid Credential.';
         }else if(error.code === 'auth/missing-password'){
             err.value = 'Missing password.';
         }else{

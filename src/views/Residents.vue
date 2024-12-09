@@ -51,12 +51,17 @@
                             <td class="border border-gray-300 p-2">{{ typeof(resident.isDewormed) === 'string' || typeof(resident.isDewormed) === 'undefined' ? 'N/A' : resident.isDewormed ? 'Yes' : 'No' }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.relationshipToTheHead || 'Head' }}</td>
                             <td>
-                              <div class="flex items-center justify-center">
+                              <div v-if="role === 'Admin' || role === 'Staff'" class="flex items-center justify-center">
                                   <button @click="updateResident(resident)">
                                       <Icon icon="mdi:pencil" class="text-green-500 text-xl" />
                                   </button>
                                   <button @click="showDeleteModal(resident.id)">
                                       <Icon icon="mdi:trash" class="text-red-500 text-xl" />
+                                  </button>
+                              </div>
+                              <div v-if="role === 'Midwife'" class="flex items-center justify-center">
+                                  <button @click="showEditModal(resident)">
+                                      <Icon icon="mdi:pencil" class="text-green-500 text-xl" />
                                   </button>
                               </div>
                             </td>
@@ -99,6 +104,9 @@
               </div>
             </div>
         </div>
+
+        <!-- edit medical for midwife -->
+        <staffEditMedical v-if="showModal" :residentData="residentDataToEdit" />
     </div>
 </template>
 
@@ -106,7 +114,8 @@
 import { ref, computed } from 'vue';
 import AddResident from '@components/AddResident.vue'
 import UpdateResident from '@components/UpdateResident.vue'
-import { useDataStore } from '@store'
+import staffEditMedical from '../components/staffEditMedical.vue';
+import { useDataStore, useAuthStore } from '@store'
 import moment from 'moment'
 import { useToast } from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
@@ -118,6 +127,8 @@ const $toast = useToast()
 const dataStore = useDataStore()
 
 const residents = computed(() => dataStore.residents)
+const authStore = useAuthStore()
+const role = computed(() => authStore.role)
 
 // remove resident
 const willDelete = ref(false)
@@ -191,4 +202,14 @@ const formatDate = (date) => {
   return moment(date).format('ll')
 }
 
+
+// edit medical of resident for midwife only
+const residentDataToEdit = ref({})
+const showModal = ref(false)
+
+
+const showEditModal = (residentData) => {
+  residentDataToEdit.value = residentData
+  showModal.value = true
+}
 </script>

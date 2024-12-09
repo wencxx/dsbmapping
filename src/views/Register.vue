@@ -16,12 +16,11 @@
                 <input type="email" class="rounded h-8 pl-2" v-model="userData.email">
             </div>
             <div class="w-full flex flex-col gap-y-2">
-                <label class="text-white text-lg">Email</label>
+                <label class="text-white text-lg">Role</label>
                 <select class="rounded h-8 pl-2" v-model="userData.role" @change="handleRoleChange">
                     <option value="" disabled>Select role</option>
                     <option value="Staff">BHW</option>
                     <option value="Midwife">Staff</option>
-                    <option value="Residents">Residents</option>
                 </select>
             </div>
             <div class="w-full flex flex-col gap-y-2">

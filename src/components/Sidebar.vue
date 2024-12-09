@@ -24,7 +24,7 @@
                         <p>Households</p>
                     </router-link>
                 </li>
-                <li class="w-full" v-if="role === 'Admin' || role === 'Staff'">
+                <li class="w-full" v-if="role === 'Admin' || role === 'Staff' || role === 'Midwife'">
                     <router-link :to="{ name: 'residents'}" class="w-full flex justify-start items-center pl-10 gap-x-3 py-2 hover:bg-blue-800">
                         <Icon icon="mdi:people-group" class="text-3xl"/>
                         <p>Residents</p>

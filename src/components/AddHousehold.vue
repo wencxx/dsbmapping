@@ -153,8 +153,9 @@ import { computed, defineEmits, ref } from 'vue'
 import 'leaflet/dist/leaflet.css';
 import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 import L from 'leaflet'
-import { db } from '@config/firebaseConfig.js'
+import { db, auth } from '@config/firebaseConfig.js'
 import { addDoc, collection, Timestamp } from 'firebase/firestore'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { useToast } from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
@@ -223,6 +224,7 @@ const addMarker = async (event) => {
 
 const householdRef = collection(db, 'households')
 const residentRef = collection(db, 'residents')
+const userRef = collection(db, 'Users')
 
 const addingHousehold = ref(false)
 
@@ -246,6 +248,23 @@ const addHousehold = async () => {
         })
 
         if(!household.empty){
+            if(headData.value.email){
+                const userCredential  = await createUserWithEmailAndPassword(auth, headData.value.email, householdData.value.householdNumber)
+
+                await updateProfile(userCredential.user, {
+                    displayName: headData.value.firstName
+                })
+
+                await addDoc(userRef, {
+                    firstName: headData.value.firstName,
+                    lastName: headData.value.lastName,
+                    email: headData.value.email,
+                    role: 'Residents',
+                    isAccepted: true,
+                    userId: userCredential.user.uid
+                })
+            }
+
             closeModal()
             $toast.success('Household added successfully')
         }

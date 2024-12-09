@@ -198,8 +198,9 @@
 <script setup>
 import { computed, defineEmits, ref } from 'vue'
 import { useDataStore } from '@store'
-import { db } from '@config/firebaseConfig.js'
+import { db, auth } from '@config/firebaseConfig.js'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { useToast } from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
@@ -272,6 +273,7 @@ const closeModal = () => {
 // add data
 const err = ref('')
 const residentRef = collection(db, 'residents')
+const userRef = collection(db, 'Users')
 const addingResident = ref(false)
 
 const addResident = async () => {
@@ -289,6 +291,23 @@ const addResident = async () => {
         })  
         
         if(snapshot.empty) return $toast.error("Failed to add resident")
+
+        if(residentData.value.email){
+            const userCredential  = await createUserWithEmailAndPassword(auth, residentData.value.email, residentData.value.householdNumber)
+
+            await updateProfile(userCredential.user, {
+                displayName: residentData.value.firstName
+            })
+
+            await addDoc(userRef, {
+                firstName: residentData.value.firstName,
+                lastName: residentData.value.lastName,
+                email: residentData.value.email,
+                role: 'Residents',
+                isAccepted: true,
+                userId: userCredential.user.uid
+            })
+        }
         closeModal()
         addingResident.value = false
         $toast.success("Added resident successfully")
