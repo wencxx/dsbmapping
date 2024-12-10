@@ -12,7 +12,7 @@
                 <input type="text" v-model="searchTerm" placeholder="Search..." class="border float-end border-gray-300 rounded pl-2 h-8 mb-4" />
 
                 <div class="min-w-full overflow-x-auto">
-                  <table class="w-[150%] border border-gray-300">
+                  <table class="w-[180%] border border-gray-300">
                       <thead>
                           <tr class="bg-gray-100">
                             <th class="border border-gray-300 p-2">Household Number</th>
@@ -24,6 +24,12 @@
                             <th class="border border-gray-300 p-2">Religion</th>
                             <th class="border border-gray-300 p-2">Immunize</th>
                             <th class="border border-gray-300 p-2">Dewormed</th>
+                            <th class="border border-gray-300 p-2">Pregnant</th>
+                            <th class="border border-gray-300 p-2">Prenatal</th>
+                            <th class="border border-gray-300 p-2">Check-up date</th>
+                            <th class="border border-gray-300 p-2">Follow-up date</th>
+                            <th class="border border-gray-300 p-2">Family Planning</th>
+                            <th class="border border-gray-300 p-2">Vaccines</th>
                             <th class="border border-gray-300 p-2">Relationship to Head</th>
                             <th class="border border-gray-300 p-2">Action</th>
                           </tr>
@@ -41,14 +47,20 @@
                             <td v-if="resident.medicalHistory.length" class="border border-gray-300 p-2">
                               {{ resident.medicalHistory.join(', ') }}
                             </td>
-                            <td v-else class="border border-gray-300 p-2">N/A</td>
+                            <td v-else class="border border-gray-300 p-2">--</td>
                             <td class="border border-gray-300 p-2">{{ resident.status }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.religion }}</td>
                             <td v-if="resident.immunization?.length" class="border border-gray-300 p-2">
                               {{ resident.immunization.join(', ') }}
                             </td>
-                            <td v-else class="border border-gray-300 p-2">N/A</td>
-                            <td class="border border-gray-300 p-2">{{ typeof(resident.isDewormed) === 'string' || typeof(resident.isDewormed) === 'undefined' ? 'N/A' : resident.isDewormed ? 'Yes' : 'No' }}</td>
+                            <td v-else class="border border-gray-300 p-2">--</td>
+                            <td class="border border-gray-300 p-2">{{ typeof(resident.isDewormed) === 'string' || typeof(resident.isDewormed) === 'undefined' ? '--' : resident.isDewormed ? 'Yes' : 'No' }}</td>
+                            <td class="border border-gray-300 p-2">{{ resident.isPregnant || '--' }}</td>
+                            <td class="border border-gray-300 p-2">{{ resident.prenatal || '--' }}</td>
+                            <td class="border border-gray-300 p-2">{{ formatDate(resident.preCheckupDate) || '--' }}</td>
+                            <td class="border border-gray-300 p-2">{{ formatDate(resident.followUpDate) || '--' }}</td>
+                            <td class="border border-gray-300 p-2">{{ resident.familyPlanning || '--' }}</td>
+                            <td class="border border-gray-300 p-2">{{ resident.vaccines?.join(', ') || '--' }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.relationshipToTheHead || 'Head' }}</td>
                             <td>
                               <div v-if="role === 'Admin' || role === 'Staff'" class="flex items-center justify-center">
@@ -106,7 +118,7 @@
         </div>
 
         <!-- edit medical for midwife -->
-        <staffEditMedical v-if="showModal" :residentData="residentDataToEdit" />
+        <staffEditMedical v-if="showModal" :residentData="residentDataToEdit" @closeModal="showModal = false" />
     </div>
 </template>
 
@@ -199,7 +211,9 @@ const updateResident = (data) => {
 
 // format date
 const formatDate = (date) => {
-  return moment(date).format('ll')
+  if(date) return moment(date).format('ll')
+
+  return
 }
 
 

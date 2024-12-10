@@ -1,6 +1,6 @@
 <template>
     <div class="fixed top-0 left-0 bg-black/10 w-screen h-screen flex items-center justify-center">
-        <form class="bg-white rounded-md h-96 w-full max-w-xl p-5 space-y-3">
+        <form @submit.prevent="updateMedicalHistory" class="bg-white rounded-md h-fit w-full max-w-xl p-5 space-y-3">
             <h1 class="text-center text-lg font-semibold">Add Medical History</h1>
             <div>
                 <h1 class="text-lg"><span class="font-semibold">Name:</span> {{ residentData.firstName }} {{ residentData.middleName || '' }} {{ residentData.lastName }}</h1>
@@ -56,6 +56,7 @@
                                 <option>Implant</option>
                                 <option>Condom</option>
                                 <option>LAM</option>
+                                <option>None</option>
                             </select>
                         </div>
                     </div>
@@ -94,6 +95,11 @@
                     </div>
                 </div>
             </div>
+            <div class="w-full flex justify-end gap-x-4">
+                <button class="bg-red-500 w-1/5 py-1 rounded text-white" type="button" @click="emit('closeModal')">Close</button>
+                <button v-if="!updating" class="bg-green-500 w-1/5 py-1 rounded text-white">Update</button>
+                <button v-else class="bg-green-500 w-1/5 py-1 rounded text-white animate-pulse" disabled>Updating</button>
+            </div>
         </form>
     </div>
 </template>
@@ -101,6 +107,14 @@
 <script setup>
 import moment from "moment"
 import { ref } from 'vue'
+import { db } from '../config/firebaseConfig'
+import { doc, updateDoc } from 'firebase/firestore'
+import { useToast } from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css' 
+
+const $toast = useToast()
+
+const emit = defineEmits(['closeModal'])
 
 const { residentData } = defineProps({
     residentData: Object
@@ -114,4 +128,23 @@ const medicalData = ref({
     familyPlanning: '',
     vaccines: [],
 })
+
+// update medical history
+const updating = ref(false)
+
+const updateMedicalHistory = async () => {
+    try {
+        updating.value = true
+        const docRef = doc(db, 'residents', residentData.id)
+
+        await updateDoc(docRef, medicalData.value)
+
+        emit('closeModal')
+        $toast.success('Updated medical history successfully')
+    } catch (error) {
+        $toast.error('Failed updating medical history')
+    } finally {
+        updating.value = false
+    }
+}
 </script>   
