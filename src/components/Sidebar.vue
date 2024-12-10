@@ -54,7 +54,7 @@
                         <p>Reports</p>
                     </router-link>
                 </li>
-                <li v-if="role === 'Admin'" class="w-full">
+                <li v-if="role === 'Admin' || role === 'Staff'" class="w-full">
                     <router-link :to="{ name: 'map'}" class="w-full flex justify-start items-center pl-10 gap-x-3 py-2 hover:bg-blue-800">
                         <Icon icon="ri:road-map-fill" class="text-3xl"/>
                         <p>Maps</p>

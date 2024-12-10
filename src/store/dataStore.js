@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { db } from '@config/firebaseConfig.js'; 
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import { collection, onSnapshot, query, where, or } from 'firebase/firestore'
 
 const useDataStore = defineStore('dataStore', {
     state: () => ({
@@ -115,7 +115,10 @@ const useDataStore = defineStore('dataStore', {
                 this.staffs = [];
                 const q = query(
                     residentsRef,
-                    where('role', '==', 'Staff')
+                    or(
+                        where('role', '==', 'Staff'),
+                        where('role', '==', 'Midwife'),
+                    )
                 )
                 onSnapshot(
                     q,

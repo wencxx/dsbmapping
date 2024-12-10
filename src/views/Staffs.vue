@@ -8,10 +8,11 @@
                 <table class="min-w-full border border-gray-300">
                     <thead>
                         <tr class="bg-gray-100">
-                          <th class="border w-1/5 border-gray-300 p-2">Name</th>
-                          <th class="border w-2/5 border-gray-300 p-2">Email</th>
-                          <th class="border w-1/5 border-gray-300 p-2">Accepted</th>
-                          <th class="border w-1/5 border-gray-300 p-2">Action</th>
+                          <th class="border w-2/12 border-gray-300 p-2">Name</th>
+                          <th class="border w-2/12 border-gray-300 p-2">Email</th>
+                          <th class="border w-1/12 border-gray-300 p-2">Role</th>
+                          <th class="border w-2/12 border-gray-300 p-2">Accepted</th>
+                          <th class="border w-1/12 border-gray-300 p-2">Action</th>
                         </tr>
                     </thead>
                     <tbody v-if="paginatedData.length > 0">
@@ -22,6 +23,7 @@
                         >
                           <td class="border border-gray-300 p-2 capitalize">{{ staff.firstName + ' ' + staff.lastName }}</td>
                           <td class="border border-gray-300 p-2 capitalize">{{ staff.email }}</td>
+                          <td class="border border-gray-300 p-2 capitalize">{{ staff.role === 'Staff' ? 'BHW' : 'Staff' }}</td>
                           <td class="border border-gray-300 p-2 capitalize">
                             <button class="bg-green-500 w-3/4 py-1 text-white rounded capitalize" :class="{ 'bg-red-500': !staff.isAccepted }">{{ staff.isAccepted === true ? 'active' : 'inactive' }}</button>
                           </td>

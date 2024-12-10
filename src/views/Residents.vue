@@ -81,7 +81,7 @@
                       </tbody>
                       <tbody v-else>
                           <tr>
-                              <td colspan="8" class="py-2 text-center">No residents</td>
+                              <td colspan="17" class="py-2 text-center">No residents</td>
                           </tr>
                       </tbody>
                   </table>
