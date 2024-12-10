@@ -1,6 +1,6 @@
 <template>
     <div class="absolute top-0 left-0 w-screen h-screen bg-black/55 flex items-center justify-center">
-        <form @submit.prevent="addResident" class="bg-white w-1/2 h-fit rounded-md p-5 space-y-7">
+        <form @submit.prevent="addResident" class="bg-white w-1/2 h-fit max-h-[80dvh] overflow-y-auto rounded-md p-5 space-y-7">
             <h1 class="text-center text-xl">Resident Information Form</h1>
             <div class="grid grid-cols-3 gap-5">  
                 <p v-if="err" class="col-span-3 bg-red-500 text-white pl-2 py-1 rounded">{{ err }}</p>  

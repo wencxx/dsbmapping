@@ -1,7 +1,16 @@
 <template>
   <div class="flex flex-col gap-y-10">
     <div class="rounded-md bg-white p-10 shadow">
-      <h1 class="font-semibold text-xl">Medical Reports</h1>
+      <div class="flex items-center justify-between mb-2">
+        <h1 class="font-semibold text-xl">Medical Reports</h1>
+        <div class="flex gap-x-2">
+          <button class="bg-blue-500 px-3 text-white rounded" v-print="'#medicalReports'">Print</button>
+          <download-csv
+            :data="paginatedData" name="medicalreports.csv" class="bg-green-500 px-3 text-white rounded cursor-pointer">
+            Download Data
+          </download-csv>
+        </div>
+      </div>
       <div class="container mx-auto">
         <!-- <input
           type="text"
@@ -10,7 +19,7 @@
           class="border float-end border-gray-300 rounded pl-2 h-8 mb-4"
         /> -->
 
-        <table class="min-w-full border border-gray-300">
+        <table class="min-w-full border border-gray-300" id="medicalReports">
           <thead>
             <tr class="bg-gray-100">
               <th class="border border-gray-300 p-2 uppercase">Disease</th>
@@ -52,9 +61,17 @@
           </button>
         </div> -->
 
-      <h1 class="font-semibold text-xl mt-20">Reports on Vaccinated Children (0-59 months)</h1>
-
-        <table class="min-w-full border border-gray-300">
+        <div class="flex items-center justify-between mb-2 mt-20">
+          <h1 class="font-semibold text-xl">Reports on Vaccinated Children (0-59 months)</h1>
+          <div class="flex gap-x-2">
+            <button class="bg-blue-500 px-3 text-white rounded" v-print="'#vaccinatedReports'">Print</button>
+            <download-csv
+              :data="Object.entries(immunization).map(([key, value]) => ({ immunization: key, Immunize_Childrens: value }))" name="medicalreports.csv" class="bg-green-500 px-3 text-white rounded cursor-pointer">
+              Download Data
+            </download-csv>
+          </div>
+        </div>
+        <table class="min-w-full border border-gray-300" id="vaccinatedReports">
           <thead>
             <tr class="bg-gray-100">
               <th class="border border-gray-300 p-2 uppercase">Immunization</th>
@@ -99,7 +116,7 @@ const immunization = computed(() => dataStore.groupedByImmunization);
 
 const searchTerm = ref('');
 const currentPage = ref(1);
-const itemsPerPage = ref(5);
+const itemsPerPage = ref(100);
 
 // Filter diseases based on search term
 const filteredData = computed(() => {
@@ -128,4 +145,5 @@ const showResidentsData = (disease, type) => {
   typeToShow.value = type
   showModal.value = true
 }
+
 </script>
