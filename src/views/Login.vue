@@ -77,7 +77,7 @@ const login = async () => {
                     return
                 }else{
                     autStore.login(credentials.user.accessToken, credentials.user, snapshot.docs[0].data().role)
-                    router.push('/residents')
+                    router.push('/households')
                 }
             }else if(snapshot.docs[0].data().role === 'Midwife'){
                 if(!snapshot.docs[0].data().isAccepted){
