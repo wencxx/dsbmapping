@@ -158,6 +158,10 @@
                         <p>MMR</p>
                         <input type="checkbox" class="border w-4 aspect-square" value="MMR" v-model="residentData.immunization">
                     </div>
+                    <div class="col-span-5 flex flex-col">
+                        <label class="text-lg">Date Taken</label>
+                        <input type="date" class="h-10 rounded border border-black pl-2 w-1/3" v-model="residentData.immunizationDate">
+                    </div>
                 </div>
                 <h1 class="col-span-3 font-semibold text-lg">Medical History</h1>
                 <div class="col-span-3 grid grid-cols-7 gap-3">
@@ -235,6 +239,7 @@ const residentData = ref({
     religion: '',
     medicalHistory: [],
     immunization: [],
+    immunizationDate: '',
     isDewormed: '',
 })
 

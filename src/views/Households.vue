@@ -136,7 +136,7 @@ const filteredData = computed(() => {
     item.address.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
     item.head.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
     item.householdNumber.toLowerCase().includes(searchTerm.value.toLowerCase())
-  );
+  ).sort((a,b) => (a.householdNumber > b.householdNumber) ? 1 : ((b.householdNumber > a.householdNumber) ? -1 : 0))
 });
 
 const totalPages = computed(() => {
@@ -145,7 +145,7 @@ const totalPages = computed(() => {
 
 const paginatedData = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
-  return filteredData.value.slice(start, start + itemsPerPage).sort((a,b) => (a.householdNumber > b.householdNumber) ? 1 : ((b.householdNumber > a.householdNumber) ? -1 : 0))
+  return filteredData.value.slice(start, start + itemsPerPage)
 });
 
 const nextPage = () => {

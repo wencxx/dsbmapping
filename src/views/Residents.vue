@@ -12,7 +12,7 @@
                 <input type="text" v-model="searchTerm" placeholder="Search..." class="border float-end border-gray-300 rounded pl-2 h-8 mb-4" />
 
                 <div class="min-w-full overflow-x-auto">
-                  <table class="w-[180%] border border-gray-300">
+                  <table class="w-[190%] border border-gray-300">
                       <thead>
                           <tr class="bg-gray-100">
                             <th class="border border-gray-300 p-2">Household Number</th>
@@ -23,6 +23,7 @@
                             <th class="border border-gray-300 p-2">Status</th>
                             <th class="border border-gray-300 p-2">Religion</th>
                             <th class="border border-gray-300 p-2">Immunize</th>
+                            <th class="border border-gray-300 p-2">Date Taken</th>
                             <th class="border border-gray-300 p-2">Dewormed</th>
                             <th class="border border-gray-300 p-2">Pregnant</th>
                             <th class="border border-gray-300 p-2">Prenatal</th>
@@ -54,6 +55,7 @@
                               {{ resident.immunization.join(', ') }}
                             </td>
                             <td v-else class="border border-gray-300 p-2">--</td>
+                            <td class="border border-gray-300 p-2">{{ formatDate(resident.immunizationDate) || '--' }}</td>
                             <td class="border border-gray-300 p-2">{{ typeof(resident.isDewormed) === 'string' || typeof(resident.isDewormed) === 'undefined' ? '--' : resident.isDewormed ? 'Yes' : 'No' }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.isPregnant || '--' }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.prenatal || '--' }}</td>
@@ -169,7 +171,7 @@ const itemsPerPage = 15;
 const filteredData = computed(() => {
   return residents.value.filter((item) =>
     item.firstName.toLowerCase().includes(searchTerm.value.toLowerCase())
-  );
+  ).sort((a,b) => (a.householdNumber > b.householdNumber) ? 1 : ((b.householdNumber > a.householdNumber) ? -1 : 0))
 });
 
 const totalPages = computed(() => {
@@ -178,7 +180,7 @@ const totalPages = computed(() => {
 
 const paginatedData = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
-  return filteredData.value.slice(start, start + itemsPerPage).sort((a,b) => (a.householdNumber > b.householdNumber) ? 1 : ((b.householdNumber > a.householdNumber) ? -1 : 0));
+  return filteredData.value.slice(start, start + itemsPerPage);
 });
 
 const nextPage = () => {
