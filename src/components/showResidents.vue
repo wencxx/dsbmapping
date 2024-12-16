@@ -1,19 +1,31 @@
 <template>
     <div class="fixed w-screen h-screen top-0 left-0 bg-black/10 flex items-center justify-center">
-        <div class="rounded-xl w-full max-w-lg h-1/2 p-5 bg-white overflow-y-auto relative">
+        <div class="rounded-xl w-full max-w-2xl h-1/2 p-5 bg-white overflow-y-auto relative">
         <Icon icon="mdi:close" class="absolute top-5 right-5 cursor-pointer text-lg" @click="emit('closeModal')" />
             <h1 v-if="type === 'disease'" class="text-lg font-bold text-center mb-5">Residents with {{ disease }}</h1>
-            <table class="w-full">
+            <div class="flex justify-end gap-x-2 my-2 mt-6">
+                <button class="bg-blue-500 px-3 text-white rounded" v-print="'#medicalReports'">Print</button>
+                <download-csv
+                    :data="downloadable()" name="reports.csv" class="bg-green-500 px-3 text-white rounded cursor-pointer">
+                    Download Data
+                </download-csv>
+            </div>
+            <table class="w-full" id="medicalReports">
                 <thead>
                     <tr class="text-start">
-                        <th class="border">Resident Name</th>
                         <th class="border">Household Number</th>
+                        <th class="border">Resident Name</th>
+                        <th class="border" v-if="type === 'disease'">Disease</th>
+                        <th class="border" v-else-if="type === 'immunizations'">Immunizations</th>
+                        <th class="border" v-else-if="type === 'familyPlanning'">Family Planning</th>
+                        <th class="border" v-else></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="res in filteredResidents" :key="res.id" class="text-center">
-                        <td class="border">{{ res.firstName + ' ' + res.middleName + ' ' + res.lastName }}</td>
                         <td class="border">{{ res.householdNumber }}</td>
+                        <td class="border">{{ res.firstName + ' ' + res.middleName + ' ' + res.lastName }}</td>
+                        <td class="border">{{ disease }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -40,6 +52,26 @@ const filteredResidents = computed(() => {
         return residents.value.filter(res => res.medicalHistory.includes(disease))
     }else if(type === 'immunizations'){
         return residents.value.filter(res => res.immunization?.includes(disease))
+    }else if(type === 'dewormed'){
+        return residents.value.filter(res => res.isDewormed)
+    }else if(type === 'notDewormed'){
+        return residents.value.filter(res => res.isDewormed === false)
+    }else if(type === 'familyPlanning'){
+        return residents.value.filter(res => res.familyPlanning === disease)
+    }else if(type === 'Pregnant'){
+        return residents.value.filter(res => res.isPregnant === 'Yes')
+    }else if(type === 'notPregnant'){
+        return residents.value.filter(res => res.isPregnant === 'No')
     }
 })
+
+const downloadable = () => {
+    return filteredResidents.value.map(resident => ({
+        householdNumber: resident.householdNumber,
+        firstName: resident.firstName,
+        middleName: resident.middleName,
+        lastName: resident.lastName,
+        disease: disease,
+    }));
+};
 </script>

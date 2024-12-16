@@ -1,15 +1,8 @@
 <template>
-  <div class="flex flex-col gap-y-10">
+  <div class="flex flex-col gap-y-10  overflow-y-auto">
     <div class="rounded-md bg-white p-10 shadow">
       <div class="flex items-center justify-between mb-2">
         <h1 class="font-semibold text-xl">Medical Reports</h1>
-        <div class="flex gap-x-2">
-          <button class="bg-blue-500 px-3 text-white rounded" v-print="'#medicalReports'">Print</button>
-          <download-csv
-            :data="paginatedData" name="medicalreports.csv" class="bg-green-500 px-3 text-white rounded cursor-pointer">
-            Download Data
-          </download-csv>
-        </div>
       </div>
       <div class="container mx-auto">
         <!-- <input
@@ -19,7 +12,7 @@
           class="border float-end border-gray-300 rounded pl-2 h-8 mb-4"
         /> -->
 
-        <table class="min-w-full border border-gray-300" id="medicalReports">
+        <table class="min-w-full border border-gray-300">
           <thead>
             <tr class="bg-gray-100">
               <th class="border border-gray-300 p-2 uppercase">Disease</th>
@@ -63,13 +56,6 @@
 
         <div class="flex items-center justify-between mb-2 mt-20">
           <h1 class="font-semibold text-xl">Reports on Vaccinated Children (0-59 months)</h1>
-          <div class="flex gap-x-2">
-            <button class="bg-blue-500 px-3 text-white rounded" v-print="'#vaccinatedReports'">Print</button>
-            <download-csv
-              :data="Object.entries(immunization).map(([key, value]) => ({ immunization: key, Immunize_Childrens: value }))" name="medicalreports.csv" class="bg-green-500 px-3 text-white rounded cursor-pointer">
-              Download Data
-            </download-csv>
-          </div>
         </div>
         <table class="min-w-full border border-gray-300" id="vaccinatedReports">
           <thead>
@@ -94,6 +80,87 @@
             </tr>
           </tbody>
         </table>
+
+
+        <div class="flex items-center justify-between mb-2 mt-20">
+          <h1 class="font-semibold text-xl">Deworming</h1>
+        </div>
+        <table class="min-w-full border border-gray-300" id="vaccinatedReports">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="border border-gray-300 p-2 uppercase">Dewormed</th>
+              <th class="border border-gray-300 p-2 uppercase">Not Dewormed</th>
+              <th class="border border-gray-300 p-2 uppercase">Total</th>
+            </tr>
+          </thead>
+          <tbody v-if="deworming.dewormed > 0 || deworming.notDewormed > 0">
+            <tr
+              class="border border-gray-300 text-center"
+            >
+              <td class="border border-gray-300 p-2" @click="showResidentsData('Dewormed', 'dewormed')">{{ deworming.dewormed }}</td>
+              <td class="border border-gray-300 p-2 cursor-pointer" @click="showResidentsData('Not Dewormed', 'notDewormed')">{{ deworming.notDewormed }}</td>
+              <td class="border border-gray-300 p-2 cursor-pointer">{{ deworming.notDewormed + deworming.dewormed }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="3" class="py-2 text-center">No data to show</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="flex items-center justify-between mb-2 mt-20">
+          <h1 class="font-semibold text-xl">Family Planning</h1>
+        </div>
+        <table class="min-w-full border border-gray-300" id="vaccinatedReports">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="border border-gray-300 p-2 uppercase">Family Panning</th>
+              <th class="border border-gray-300 p-2 uppercase">Count</th>
+            </tr>
+          </thead>
+          <tbody v-if="Object.keys(familyPlanning)?.length">
+            <tr
+              v-for="(value, key, index) in familyPlanning"
+              :key="index"
+              class="border border-gray-300 text-center"
+            >
+              <td class="border border-gray-300 p-2">{{ key }}</td>
+              <td class="border border-gray-300 p-2 cursor-pointer" @click="showResidentsData(key, 'familyPlanning')">{{ value }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="2" class="py-2 text-center">No data to show</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <div class="flex items-center justify-between mb-2 mt-20">
+          <h1 class="font-semibold text-xl">Pregnancy</h1>
+        </div>
+        <table class="min-w-full border border-gray-300" id="vaccinatedReports">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="border border-gray-300 p-2 uppercase">Pregnant</th>
+              <th class="border border-gray-300 p-2 uppercase">Not Pregnant</th>
+            </tr>
+          </thead>
+          <tbody v-if="pregnant.pregnant > 0 || pregnant.notPregnant > 0">
+            <tr
+              class="border border-gray-300 text-center"
+            >
+              <td class="border border-gray-300 p-2" @click="showResidentsData('Pregnant', 'Pregnant')">{{ pregnant.pregnant }}</td>
+              <td class="border border-gray-300 p-2 cursor-pointer" @click="showResidentsData('Not Pregnant', 'notPregnant')">{{ pregnant.notPregnant }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="3" class="py-2 text-center">No data to show</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <showResidents v-if="showModal" :disease="diseaseToShow" :type="typeToShow" @closeModal="showModal = false" />
@@ -112,6 +179,9 @@ const dataStore = useDataStore();
 
 const diseases = computed(() => dataStore.groupedByMedical);
 const immunization = computed(() => dataStore.groupedByImmunization);
+const deworming = computed(() => dataStore.groupedByDeworming);
+const familyPlanning = computed(() => dataStore.groupedByfamilyPlanning);
+const pregnant = computed(() => dataStore.groupedByPregnancy);
 
 
 const searchTerm = ref('');

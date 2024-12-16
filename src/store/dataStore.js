@@ -81,6 +81,61 @@ const useDataStore = defineStore('dataStore', {
 
             return grouped;
         },
+        groupedByDeworming(state) {
+            const grouped = {
+                dewormed: 0,
+                notDewormed: 0,
+            };
+        
+            const currentYear = new Date().getFullYear();
+        
+            state.residents.forEach(resident => {
+                if (resident.birthdate) {
+                    const birthYear = new Date(resident.birthdate).getFullYear();
+                    const age = currentYear - birthYear;
+        
+                    if (age >= 2 && age <= 6) {
+                        if (resident.isDewormed) {
+                            grouped.dewormed++;
+                        } else {
+                            grouped.notDewormed++;
+                        }
+                    }
+                }
+            });
+        
+            return grouped;
+        },
+        groupedByfamilyPlanning(state){
+            const grouped = {};
+
+            state.residents.forEach(resident => {
+                if(resident.familyPlanning){
+                    if(!grouped[resident.familyPlanning]){
+                        grouped[resident.familyPlanning] = 0
+                    }
+                    grouped[resident.familyPlanning]++
+                }
+            });
+
+            return grouped;
+        },
+        groupedByPregnancy(state) {
+            const grouped = {
+                pregnant: 0,
+                notPregnant: 0,
+            };
+        
+            state.residents.forEach(resident => {
+                if (resident.isPregnant === 'Yes') {
+                    grouped.pregnant++;
+                } else if (resident.isPregnant === 'No') {
+                    grouped.notPregnant++;
+                }
+            });
+        
+            return grouped;
+        },
     },  
     actions: {
         async getHouseholds() {

@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="space-y-1 col-span-3">
-                        <label>Routine Vaccines</label>
+                        <label>Routine Vaccines(0-59 months)</label>
                         <div class="flex gap-x-5 flex-wrap">
                             <div class="flex items-center gap-x-2">
                                 <input type="checkbox" class="w-5 aspect-square" value="BCG" v-model="medicalData.vaccines">
