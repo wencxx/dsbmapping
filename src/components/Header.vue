@@ -4,7 +4,7 @@
         <div class="flex items-center gap-x-2">
             <h1 class="capitalize font-medium">
                 <span>{{ role === 'Midwife' ? 'staff' : role === 'Staff' ? 'BHW' : role === 'Residents' ? 'Resident' : 'Admin' }}</span> 
-            {{ currentUser?.displayName }}</h1>
+            {{ name }}</h1>
             <div class="relative">
                 <Icon icon="solar:user-circle-bold"  @click="toggledUserMenu = !toggledUserMenu" class="text-4xl"/>
                 <div v-if="toggledUserMenu" class="absolute right-0 top-[100%] py-2 px-5 bg-white border border-gray-100 rounded">
@@ -28,6 +28,7 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const role = computed(() => authStore.role)
+const name = localStorage.getItem('name')
 
 const currentUser = computed(() => authStore.currentUser)
 

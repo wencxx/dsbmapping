@@ -16,6 +16,7 @@ const useAuthStore = defineStore('authStore', {
         async login(token, user, role) {
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
+            localStorage.setItem('name', user.displayName);
             localStorage.setItem('isAuth', true);
             this.currentUser = user;
             this.isAuth = true;
@@ -53,6 +54,7 @@ const useAuthStore = defineStore('authStore', {
             localStorage.removeItem('token');
             localStorage.removeItem('role');
             localStorage.removeItem('isAuth');
+            localStorage.removeItem('name');
 
             this.currentUser = null;
             this.isAuth = false;
