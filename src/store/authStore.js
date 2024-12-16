@@ -22,9 +22,31 @@ const useAuthStore = defineStore('authStore', {
             this.token = token;
             this.role = role;
 
-            const dataStore = useDataStore();
-            if (!dataStore.households.length) { 
-                dataStore.getHouseholds();
+            try {
+                const q = query(
+                    collection(db, 'residents'),
+                    where('email', '==', user.email),
+                    limit(1)
+                );
+
+                const snapshot = await getDocs(q);
+
+                if (!snapshot.empty) {
+                    this.currentUser = {
+                        ...user,
+                        id: snapshot.docs[0].id,
+                        ...snapshot.docs[0].data()
+                    };
+                } else {
+                    this.currentUser = user
+                }
+
+                const dataStore = useDataStore();
+                if (!dataStore.households.length) {
+                    await dataStore.getHouseholds();
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
             }
         },
         async logout() {

@@ -12,10 +12,14 @@
 import Sidebar from '@components/Sidebar.vue'
 import Header from '@components/Header.vue'
 import { useAuthStore } from '@store'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { onAuthStateChanged } from 'firebase/auth'
 
 const authStore = useAuthStore()
+
+onMounted(() => {
+    authStore.initializeAuthListener()
+})
 
 const isAuth = computed(() => authStore.isAuth)
 
