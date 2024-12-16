@@ -63,8 +63,8 @@
         </div>
 
         <!-- add resident form component -->
-        <AddHousehold v-if="isAddHousehold" @click.self="isAddHousehold = false" @closeModal="isAddHousehold = false" />
-        <UpdateHousehold v-if="isUpdateHousehold" @click.self="isUpdateHousehold = false" @closeModal="isUpdateHousehold = false" :householdData="householdData" />
+        <AddHousehold v-if="isAddHousehold" @closeModal="isAddHousehold = false" />
+        <UpdateHousehold v-if="isUpdateHousehold" @closeModal="isUpdateHousehold = false" :householdData="householdData" />
 
         <!-- modal for deletion -->
         <div v-if="willDelete" @click.self="willDelete = false" class="fixed top-0 left-0 w-screen h-screen bg-black/10 flex items-center justify-center">
@@ -145,7 +145,7 @@ const totalPages = computed(() => {
 
 const paginatedData = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
-  return filteredData.value.slice(start, start + itemsPerPage);
+  return filteredData.value.slice(start, start + itemsPerPage).sort((a,b) => (a.householdNumber > b.householdNumber) ? 1 : ((b.householdNumber > a.householdNumber) ? -1 : 0))
 });
 
 const nextPage = () => {

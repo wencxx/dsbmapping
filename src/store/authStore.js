@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { auth } from '@config/firebaseConfig.js'; 
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDataStore } from './index'
+import { db } from '../config/firebaseConfig'
+import { getDocs, limit, query, where, collection } from 'firebase/firestore'
 
 const useAuthStore = defineStore('authStore', {
     state: () => ({
@@ -35,10 +37,23 @@ const useAuthStore = defineStore('authStore', {
             this.token = null;
         },
         initializeAuthListener() {
-            onAuthStateChanged(auth, (user) => {
+            onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     this.token = user.accessToken;
-                    this.currentUser = user
+                    
+                    const q = query(
+                        collection(db, 'residents'),
+                        where('email', '==', user.email),
+                        limit(1)
+                    )
+
+                    const snapshot = await getDocs(q)
+
+                    this.currentUser = {
+                        ...user,
+                        id: snapshot.docs[0].id,
+                        ...snapshot.docs[0].data()
+                    }
 
                     const dataStore = useDataStore();
                     if (!dataStore.households.length) {

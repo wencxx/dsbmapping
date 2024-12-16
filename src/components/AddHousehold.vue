@@ -204,6 +204,8 @@ const headData = ref({
 const showMap = ref(false)
 const markers = ref(null);
 
+const mapAddress = ref('Select on map')
+
 const addMarker = async (event) => {
     const { lat, lng } = event.latlng;
     markers.value = [lat, lng]
@@ -212,7 +214,7 @@ const addMarker = async (event) => {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
         const data = await response.json()
         if (data && data.display_name) {
-            // householdData.value.address = data.display_name
+            mapAddress.value = data.display_name
             householdData.value.lat = lat
             householdData.value.lng = lng
         }
