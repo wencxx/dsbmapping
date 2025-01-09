@@ -129,38 +129,76 @@
                     </div>
                 </div> 
                 <h1 v-if="isBelowFour" class="col-span-3 font-semibold text-lg">Immunization</h1>
-                <div v-if="isBelowFour" class="col-span-3 grid grid-cols-5 gap-3">
-                    <div class="flex items-center justify-center gap-x-2">
-                        <p>BCG</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="BCG" v-model="residentData.immunization">
+                <div v-if="isBelowFour" class="flex flex-col gap-3 w-full col-span-3">
+                    <div class="flex items-center gap-x-5 w-fit">
+                        <div class="flex items-center gap-x-2">
+                            <p>BCG</p>
+                            <input type="checkbox" class="border w-5 aspect-square" value="BCG" v-model="residentData.immunization">
+                        </div>
+                        <div class="flex items-center w-fit gap-x-2">
+                            <label class="">Date Taken</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.bcgDate">
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center gap-x-2">
-                        <p>Hepa B</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="Hepa B" v-model="residentData.immunization">
+                    <div class="flex items-center gap-x-5 w-fit">
+                        <div class="flex items-center gap-x-2">
+                            <p>Hepa B</p>
+                            <input type="checkbox" class="border w-5 aspect-square" value="Hepa B" v-model="residentData.immunization">
+                        </div>
+                        <div class="flex items-center w-fit gap-x-2">
+                            <label class="">Date Taken</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.hepaDate">
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center gap-x-2">
-                        <p>DPT-Hepa B-HiB</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="DPT-Hepa B-HiB" v-model="residentData.immunization"> 
+                    <div class="flex items-center gap-x-5 w-fit">
+                        <div class="flex items-center gap-x-2">
+                            <p>DPT-Hepa B-HiB</p>
+                            <input type="checkbox" class="border w-5 aspect-square" value="DPT-Hepa B-HiB" v-model="residentData.immunization"> 
+                        </div>
+                        <div class="flex items-center w-fit gap-x-2">
+                            <label class="">Date Taken</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.dptDate">
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center gap-x-2">
-                        <p>OPV</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="OPV" v-model="residentData.immunization">
+                    <div class="flex items-center gap-x-5 w-fit">
+                        <div class="flex items-center gap-x-2">
+                            <p>OPV</p>
+                            <input type="checkbox" class="border w-5 aspect-square" value="OPV" v-model="residentData.immunization">
+                        </div>
+                        <div class="flex items-center w-fit gap-x-2">
+                            <label class="">Date Taken</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.opvDate">
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center gap-x-2">
-                        <p>IPV</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="IPV" v-model="residentData.immunization">
+                    <div class="flex items-center gap-x-5 w-fit">
+                        <div class="flex items-center gap-x-2">
+                            <p>IPV</p>
+                            <input type="checkbox" class="border w-5 aspect-square" value="IPV" v-model="residentData.immunization">
+                        </div>
+                        <div class="flex items-center w-fit gap-x-2">
+                            <label class="">Date Taken</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.ipvDate">
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center gap-x-2">
-                        <p>PCV</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="PCV" v-model="residentData.immunization">
+                    <div class="flex items-center gap-x-5 w-fit">
+                        <div class="flex items-center gap-x-2">
+                            <p>PCV</p>
+                            <input type="checkbox" class="border w-5 aspect-square" value="PCV" v-model="residentData.immunization">
+                        </div>
+                        <div class="flex items-center w-fit gap-x-2">
+                            <label class="">Date Taken</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.pcvDate">
+                        </div>
                     </div>
-                    <div class="flex items-center justify-center gap-x-2">
-                        <p>MMR</p>
-                        <input type="checkbox" class="border w-4 aspect-square" value="MMR" v-model="residentData.immunization">
-                    </div>
-                    <div class="col-span-5 flex flex-col">
-                        <label class="text-lg">Date Taken</label>
-                        <input type="date" class="h-10 rounded border border-black pl-2 w-1/3" v-model="residentData.immunizationDate">
+                    <div class="flex items-center gap-x-5 w-fit">
+                            <div class="flex items-center gap-x-2">
+                            <p>MMR</p>
+                            <input type="checkbox" class="border w-5 aspect-square" value="MMR" v-model="residentData.immunization">
+                        </div>
+                        <div class="flex items-center w-fit gap-x-2">
+                            <label class="">Date Taken</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.mmrDate">
+                        </div>
                     </div>
                 </div>
                 <h1 class="col-span-3 font-semibold text-lg">Medical History</h1>
@@ -239,7 +277,13 @@ const residentData = ref({
     religion: '',
     medicalHistory: [],
     immunization: [],
-    immunizationDate: '',
+    bcgDate: '',
+    hepaDate: '',
+    dptDate: '',
+    opvDate: '',
+    ipvDate: '',
+    pcvDate: '',
+    mmrDate: '',
     isDewormed: '',
 })
 

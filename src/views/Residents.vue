@@ -55,7 +55,17 @@
                               {{ resident.immunization.join(', ') }}
                             </td>
                             <td v-else class="border border-gray-300 p-2">--</td>
-                            <td class="border border-gray-300 p-2">{{ formatDate(resident.immunizationDate) || '--' }}</td>
+                            <td class="border border-gray-300 p-2">
+                              <div>
+                                <p v-if="resident.bcgDate">BCG: {{ resident.bcgDate }}</p>
+                                <p v-if="resident.hepaDate">HEPA B: {{ resident.hepaDate }}</p>
+                                <p v-if="resident.dptDate">DPT-Hepa B-HiB: {{ resident.dptDate }}</p>
+                                <p v-if="resident.opvDate">OPV: {{ resident.opvDate }}</p>
+                                <p v-if="resident.ipvDate">IPV: {{ resident.ipvDate }}</p>
+                                <p v-if="resident.pcvDate">PCV: {{ resident.pcvDate }}</p>
+                                <p v-if="resident.mmrDate">MMR: {{ resident.mmrDate }}</p>
+                              </div>
+                            </td>
                             <td class="border border-gray-300 p-2">{{ typeof(resident.isDewormed) === 'string' || typeof(resident.isDewormed) === 'undefined' ? '--' : resident.isDewormed ? 'Yes' : 'No' }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.isPregnant || '--' }}</td>
                             <td class="border border-gray-300 p-2">{{ resident.prenatal || '--' }}</td>
