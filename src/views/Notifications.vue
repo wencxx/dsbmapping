@@ -17,11 +17,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useDataStore, useAuthStore } from '@store'
 import moment from 'moment'
-import { useToast } from 'vue-toast-notification'
-import 'vue-toast-notification/dist/theme-sugar.css'
-import { db } from '@config/firebaseConfig.js'
 
-const $toast = useToast()
 
 const dataStore = useDataStore()
 
