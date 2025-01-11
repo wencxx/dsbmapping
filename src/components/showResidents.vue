@@ -13,19 +13,19 @@
             <table class="w-full" id="medicalReports">
                 <thead>
                     <tr class="text-start">
-                        <th class="border">Household Number</th>
-                        <th class="border">Resident Name</th>
-                        <th class="border" v-if="type === 'disease'">Disease</th>
+                        <th class="border">Barangay</th>
+                        <th class="border" v-if="type === 'disease'">Comorbidites</th>
                         <th class="border" v-else-if="type === 'immunizations'">Immunizations</th>
                         <th class="border" v-else-if="type === 'familyPlanning'">Family Planning</th>
                         <th class="border" v-else></th>
+                        <th class="border">Resident Name</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="res in filteredResidents" :key="res.id" class="text-center">
-                        <td class="border">{{ res.householdNumber }}</td>
-                        <td class="border">{{ res.firstName + ' ' + res.middleName + ' ' + res.lastName }}</td>
+                        <td class="border">{{ barangay(res.householdNumber) }}</td>
                         <td class="border">{{ disease }}</td>
+                        <td class="border">{{ res.firstName + ' ' + res.middleName + ' ' + res.lastName }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -46,6 +46,7 @@ const emit = defineEmits(['closeModal'])
 
 const dataStore = useDataStore()
 const residents = computed(() => dataStore.residents)
+const households = computed(() => dataStore.households)
 
 const filteredResidents = computed(() => {
     if(type === 'disease'){
@@ -64,6 +65,12 @@ const filteredResidents = computed(() => {
         return residents.value.filter(res => res.isPregnant === 'No')
     }
 })
+
+const barangay = (householdNum) => {
+    const foundeHousehold = households.value.find(household => household.householdNumber == householdNum)
+
+    return foundeHousehold.address.split(', ')[1]
+}
 
 const downloadable = () => {
     return filteredResidents.value.map(resident => ({
