@@ -66,6 +66,12 @@
                         <p>Members</p>
                     </router-link>
                 </li>
+                <li v-if="role === 'Residents'" class="w-full">
+                    <router-link :to="{ name: 'notifications'}" class="w-full flex justify-start items-center pl-10 gap-x-3 py-2 hover:bg-blue-800">
+                        <Icon icon="mdi:bell" class="text-3xl"/>
+                        <p>Notifications</p>
+                    </router-link>
+                </li>
             </ul>
         </nav>
     </div>

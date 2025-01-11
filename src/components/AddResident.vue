@@ -135,7 +135,7 @@
                             <p>BCG</p>
                             <input type="checkbox" class="border w-5 aspect-square" value="BCG" v-model="residentData.immunization">
                         </div>
-                        <div class="flex items-center w-fit gap-x-2">
+                        <div v-if="residentData.immunization.includes('BCG')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.bcgDate">
                         </div>
@@ -145,7 +145,7 @@
                             <p>Hepa B</p>
                             <input type="checkbox" class="border w-5 aspect-square" value="Hepa B" v-model="residentData.immunization">
                         </div>
-                        <div class="flex items-center w-fit gap-x-2">
+                        <div v-if="residentData.immunization.includes('Hepa B')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.hepaDate">
                         </div>
@@ -155,7 +155,7 @@
                             <p>DPT-Hepa B-HiB</p>
                             <input type="checkbox" class="border w-5 aspect-square" value="DPT-Hepa B-HiB" v-model="residentData.immunization"> 
                         </div>
-                        <div class="flex items-center w-fit gap-x-2">
+                        <div v-if="residentData.immunization.includes('DPT-Hepa B-HiB')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.dptDate">
                         </div>
@@ -165,7 +165,7 @@
                             <p>OPV</p>
                             <input type="checkbox" class="border w-5 aspect-square" value="OPV" v-model="residentData.immunization">
                         </div>
-                        <div class="flex items-center w-fit gap-x-2">
+                        <div v-if="residentData.immunization.includes('OPV')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.opvDate">
                         </div>
@@ -175,7 +175,7 @@
                             <p>IPV</p>
                             <input type="checkbox" class="border w-5 aspect-square" value="IPV" v-model="residentData.immunization">
                         </div>
-                        <div class="flex items-center w-fit gap-x-2">
+                        <div v-if="residentData.immunization.includes('IPV')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.ipvDate">
                         </div>
@@ -185,7 +185,7 @@
                             <p>PCV</p>
                             <input type="checkbox" class="border w-5 aspect-square" value="PCV" v-model="residentData.immunization">
                         </div>
-                        <div class="flex items-center w-fit gap-x-2">
+                        <div v-if="residentData.immunization.includes('PCV')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.pcvDate">
                         </div>
@@ -195,7 +195,7 @@
                             <p>MMR</p>
                             <input type="checkbox" class="border w-5 aspect-square" value="MMR" v-model="residentData.immunization">
                         </div>
-                        <div class="flex items-center w-fit gap-x-2">
+                        <div v-if="residentData.immunization.includes('MMR')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.mmrDate">
                         </div>
