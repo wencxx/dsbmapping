@@ -139,6 +139,10 @@
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.bcgDate">
                         </div>
+                        <div v-if="residentData.bcgDate" class="flex items-center w-fit gap-x-2">
+                            <label class="">Follow-up Date</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.bcgFollowup">
+                        </div>
                     </div>
                     <div class="flex items-center gap-x-5 w-fit">
                         <div class="flex items-center gap-x-2">
@@ -148,6 +152,10 @@
                         <div v-if="residentData.immunization.includes('Hepa B')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.hepaDate">
+                        </div>
+                        <div v-if="residentData.hepaDate" class="flex items-center w-fit gap-x-2">
+                            <label class="">Follow-up Date</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.hepaFollowup">
                         </div>
                     </div>
                     <div class="flex items-center gap-x-5 w-fit">
@@ -159,6 +167,10 @@
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.dptDate">
                         </div>
+                        <div v-if="residentData.dptDate" class="flex items-center w-fit gap-x-2">
+                            <label class="">Follow-up Date</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.dptFollowup">
+                        </div>
                     </div>
                     <div class="flex items-center gap-x-5 w-fit">
                         <div class="flex items-center gap-x-2">
@@ -168,6 +180,10 @@
                         <div v-if="residentData.immunization.includes('OPV')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.opvDate">
+                        </div>
+                        <div v-if="residentData.opvDate" class="flex items-center w-fit gap-x-2">
+                            <label class="">Follow-up Date</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.opvFollowup">
                         </div>
                     </div>
                     <div class="flex items-center gap-x-5 w-fit">
@@ -179,6 +195,10 @@
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.ipvDate">
                         </div>
+                        <div v-if="residentData.ipvDate" class="flex items-center w-fit gap-x-2">
+                            <label class="">Follow-up Date</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.ipvFollowup">
+                        </div>
                     </div>
                     <div class="flex items-center gap-x-5 w-fit">
                         <div class="flex items-center gap-x-2">
@@ -189,6 +209,10 @@
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.pcvDate">
                         </div>
+                        <div v-if="residentData.pcvDate" class="flex items-center w-fit gap-x-2">
+                            <label class="">Follow-up Date</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.pcvFollowup">
+                        </div>
                     </div>
                     <div class="flex items-center gap-x-5 w-fit">
                             <div class="flex items-center gap-x-2">
@@ -198,6 +222,10 @@
                         <div v-if="residentData.immunization.includes('MMR')" class="flex items-center w-fit gap-x-2">
                             <label class="">Date Taken</label>
                             <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.mmrDate">
+                        </div>
+                        <div v-if="residentData.mmrDate" class="flex items-center w-fit gap-x-2">
+                            <label class="">Follow-up Date</label>
+                            <input type="date" class="h-8 rounded border border-black pl-2" v-model="residentData.mmrFollowup">
                         </div>
                     </div>
                 </div>
@@ -278,12 +306,19 @@ const residentData = ref({
     medicalHistory: [],
     immunization: [],
     bcgDate: '',
+    bcgFollowup: '',
     hepaDate: '',
+    hepaFollowup: '',
     dptDate: '',
+    dptFollowup: '',
     opvDate: '',
+    opvFollowup: '',
     ipvDate: '',
+    ipvFollowup: '',
     pcvDate: '',
+    pcvFollowup: '',
     mmrDate: '',
+    mmrFollowup: '',
     isDewormed: '',
 })
 

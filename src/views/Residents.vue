@@ -24,6 +24,7 @@
                             <th class="border border-gray-300 p-2">Religion</th>
                             <th class="border border-gray-300 p-2">Immunize</th>
                             <th class="border border-gray-300 p-2">Date Taken</th>
+                            <th class="border border-gray-300 p-2">Follow-up Date</th>
                             <th class="border border-gray-300 p-2">Dewormed</th>
                             <th class="border border-gray-300 p-2">Pregnant</th>
                             <th class="border border-gray-300 p-2">Prenatal</th>
@@ -64,6 +65,17 @@
                                 <p v-if="resident.ipvDate">IPV: {{ resident.ipvDate }}</p>
                                 <p v-if="resident.pcvDate">PCV: {{ resident.pcvDate }}</p>
                                 <p v-if="resident.mmrDate">MMR: {{ resident.mmrDate }}</p>
+                              </div>
+                            </td>
+                            <td class="border border-gray-300 p-2">
+                              <div>
+                                <p v-if="resident.bcgFollowup">BCG: {{ resident.bcgFollowup }}</p>
+                                <p v-if="resident.hepaFollowup">HEPA B: {{ resident.hepaFollowup }}</p>
+                                <p v-if="resident.dptFollowup">DPT-Hepa B-HiB: {{ resident.dptFollowup }}</p>
+                                <p v-if="resident.opvFollowup">OPV: {{ resident.opvFollowup }}</p>
+                                <p v-if="resident.ipvFollowup">IPV: {{ resident.ipvFollowup }}</p>
+                                <p v-if="resident.pcvFollowup">PCV: {{ resident.pcvFollowup }}</p>
+                                <p v-if="resident.mmrFollowup">MMR: {{ resident.mmrFollowup }}</p>
                               </div>
                             </td>
                             <td class="border border-gray-300 p-2">{{ typeof(resident.isDewormed) === 'string' || typeof(resident.isDewormed) === 'undefined' ? '--' : resident.isDewormed ? 'Yes' : 'No' }}</td>
