@@ -40,11 +40,11 @@
                     </select>
                 </div>
                 <div v-if="isBelowFour" class="flex flex-col gap-y-2">
-                    <label class="text-lg">Weight</label>
+                    <label class="text-lg">Weight (kg)</label>
                     <input type="text" class="h-10 rounded border border-black pl-2" v-model="residentData.weight">
                 </div>
                 <div v-if="isBelowFour" class="flex flex-col gap-y-2">
-                    <label class="text-lg">Height</label>
+                    <label class="text-lg">Height (cm)</label>
                     <input type="text" class="h-10 rounded border border-black pl-2" v-model="residentData.height">
                 </div>
                 <div class="flex flex-col gap-y-2">
@@ -266,7 +266,7 @@
 </template>
 
 <script setup>
-import { computed, defineEmits, ref } from 'vue'
+import { computed, defineEmits, ref, watch } from 'vue'
 import { useDataStore } from '@store'
 import { db, auth } from '@config/firebaseConfig.js'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
@@ -321,6 +321,41 @@ const residentData = ref({
     mmrFollowup: '',
     isDewormed: '',
 })
+
+const setDateTaken = (immunizationType) => {
+  const today = new Date().toISOString().split('T')[0];  
+  switch (immunizationType) {
+    case 'BCG':
+      residentData.value.bcgDate = today;
+      break;
+    case 'Hepa B':
+      residentData.value.hepaDate = today;
+      break;
+    case 'DPT-Hepa B-HiB':
+      residentData.value.dptDate = today;
+      break;
+    case 'OPV':
+      residentData.value.opvDate = today;
+      break;
+    case 'IPV':
+      residentData.value.ipvDate = today;
+      break;
+    case 'PCV':
+      residentData.value.pcvDate = today;
+      break;
+    default:
+      break;
+  }
+};
+
+watch(() => residentData.value.immunization, (newVal) => {
+  const immunizations = ['BCG', 'Hepa B', 'DPT-Hepa B-HiB', 'OPV', 'IPV', 'PCV'];
+  immunizations.forEach(immunization => {
+    if (newVal.includes(immunization)) {
+      setDateTaken(immunization);
+    }
+  });
+});
 
 const isBelowFour = ref(false)
 const isBetweenSix = ref(false)

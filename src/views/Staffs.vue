@@ -11,7 +11,7 @@
                           <th class="border w-2/12 border-gray-300 p-2">Name</th>
                           <th class="border w-2/12 border-gray-300 p-2">Email</th>
                           <th class="border w-1/12 border-gray-300 p-2">Role</th>
-                          <th class="border w-2/12 border-gray-300 p-2">Accepted</th>
+                          <th class="border w-2/12 border-gray-300 p-2">Status</th>
                           <th class="border w-1/12 border-gray-300 p-2">Action</th>
                         </tr>
                     </thead>

@@ -144,7 +144,6 @@
           <thead>
             <tr class="bg-gray-100">
               <th class="border border-gray-300 p-2 uppercase">Pregnant</th>
-              <th class="border border-gray-300 p-2 uppercase">Not Pregnant</th>
             </tr>
           </thead>
           <tbody v-if="pregnant.pregnant > 0 || pregnant.notPregnant > 0">
@@ -152,7 +151,6 @@
               class="border border-gray-300 text-center"
             >
               <td class="border border-gray-300 p-2" @click="showResidentsData('Pregnant', 'Pregnant')">{{ pregnant.pregnant }}</td>
-              <td class="border border-gray-300 p-2 cursor-pointer" @click="showResidentsData('Not Pregnant', 'notPregnant')">{{ pregnant.notPregnant }}</td>
             </tr>
           </tbody>
           <tbody v-else>
