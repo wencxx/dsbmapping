@@ -51,12 +51,20 @@
                         <div class="flex gap-x-5">
                             <select v-model="medicalData.familyPlanning" class="border rounded px-1">
                                 <option value="" disabled>Select</option>
-                                <option>Pills</option>
-                                <option>Injectable</option>
-                                <option>Implant</option>
-                                <option>Condom</option>
+                                <option>BTL</option>
+                                <option>NSV</option>
+                                <option>CONDOM</option>
+                                <option>POP</option>
+                                <option>COC</option>
+                                <option>DMPA</option>
+                                <option>IMPLANT</option>
+                                <option>IUD-I</option>
+                                <option>IUP-PP</option>
                                 <option>LAM</option>
-                                <option>None</option>
+                                <option>BBT</option>
+                                <option>CMM</option>
+                                <option>STM</option>
+                                <option>SDM</option>
                             </select>
                         </div>
                     </div>
